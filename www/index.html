@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>BD Smart Pay</title>
+<style>
+:root{--p:#5921da;--p2:#6d2ff0;--t:#1f1235;--g:#1f8a3b}
+*{box-sizing:border-box;margin:0;-webkit-tap-highlight-color:transparent}
+body{font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;background:#f6f1ff;color:var(--t);max-width:480px;margin:auto;min-height:100vh;padding-bottom:92px}
+button{font:inherit;border:0;cursor:pointer;background:none;color:inherit}
+.top{background:linear-gradient(180deg,#5a24dc,#5a21df);color:#fff;padding:calc(env(safe-area-inset-top,0px) + 14px) 18px 34px;display:flex;align-items:center;gap:12px}
+.top img{width:56px;height:52px;object-fit:cover;border-radius:12px}
+.top div{flex:1}.top h1{font-size:23px}.top small{font-size:13px;opacity:.9}
+.wrap{background:#fbf9fe;margin-top:-20px;border-radius:26px 26px 0 0;padding:16px}
+.pill{display:flex;align-items:center;justify-content:center;gap:10px;width:70%;margin:0 auto 14px;padding:10px;border-radius:24px;background:#fff;border:1px solid #e6dcf7;font-size:19px;font-weight:600}
+.card{display:flex;align-items:center;gap:16px;width:100%;text-align:left;color:#fff;border-radius:20px;padding:18px;background:linear-gradient(135deg,#5320d7,#6a1ff0);box-shadow:0 8px 18px #5921da55;position:relative}
+.card img{width:74px;height:74px;object-fit:cover;border-radius:16px}
+.card small{font-size:15px;display:block}.card b{font-size:34px;display:block;margin:2px 0 6px}
+.hint{font-size:13px;display:flex;align-items:center;gap:6px;opacity:.95}
+.acts{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:16px 0}
+.act{border-radius:18px;padding:14px 2px 10px;font-size:13px;font-weight:700;display:flex;flex-direction:column;align-items:center;gap:6px;text-align:center}
+.act img{width:44px;height:44px;object-fit:contain;mix-blend-mode:multiply}
+h3{font-size:20px;margin:14px 0 10px}
+.svc{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+.svc button{border-radius:16px;padding:14px 2px 10px;font-size:12px;font-weight:600;display:flex;flex-direction:column;align-items:center;gap:6px;text-align:center}
+.svc img{width:40px;height:40px;object-fit:contain;mix-blend-mode:multiply}
+.banner{width:100%;border-radius:16px;margin-top:16px;display:block}
+.row{background:#fff;border-radius:14px;padding:12px 14px;margin-bottom:8px;display:flex;justify-content:space-between;align-items:center;font-size:14px;width:100%;text-align:left}
+.row small{color:#7c6a99;display:block;font-size:11px}
+.neg{color:#d93025;font-weight:700}.pos{color:var(--g);font-weight:700}
+nav{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:480px;background:#fff;display:flex;justify-content:space-around;align-items:flex-end;padding:8px 0 calc(env(safe-area-inset-bottom,0px) + 8px);box-shadow:0 -4px 16px #5921da22;border-radius:22px 22px 0 0}
+nav button{font-size:12px;color:#7d8bb0;display:flex;flex-direction:column;align-items:center;gap:3px;min-width:64px}
+nav svg{width:26px;height:26px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+nav button.on{color:var(--p);font-weight:700}nav button.on svg{fill:var(--p)}
+nav .mid{color:var(--t);font-weight:600}nav .mid s{width:58px;height:58px;border-radius:50%;background:linear-gradient(135deg,#5320d7,#7a35f5);display:grid;place-items:center;margin-top:-28px;border:4px solid #fff;color:#fff}
+nav .mid svg{stroke:#fff;fill:none}
+.demo{background:#ede4ff;color:var(--p);text-align:center;font-size:11px;padding:5px;font-weight:700}
+.shade{position:fixed;inset:0;background:#0007;display:none;align-items:flex-end;justify-content:center;z-index:9}
+.shade.on{display:flex}
+.sheet{background:#fff;width:100%;max-width:480px;border-radius:24px 24px 0 0;padding:20px;max-height:88vh;overflow:auto}
+.sheet h2{font-size:18px;margin-bottom:12px}
+label{font-size:12px;color:#6b5a85;display:block;margin:10px 0 4px}
+input,select{width:100%;padding:13px;border:1.5px solid #ddd0f5;border-radius:12px;font:inherit;background:#fff}
+.go{width:100%;margin-top:16px;padding:15px;border-radius:14px;background:var(--p);color:#fff;font-weight:700;font-size:17px}
+.err{color:#d93025;font-size:13px;margin-top:8px;min-height:16px}
+.det{position:fixed;inset:0;background:#f6f1ff;z-index:8;max-width:480px;margin:auto;overflow:auto;display:none}
+.det.on{display:block}
+.det .bar{background:#5a21df;color:#fff;display:flex;align-items:center;justify-content:space-between;padding:calc(env(safe-area-inset-top,0px) + 16px) 18px;font-size:20px;font-weight:600}
+.det .bar span{font-size:26px;width:30px}
+.det .in{padding:14px}
+.bd{background:#fff;border-radius:20px;padding:12px 16px;margin:14px 0;box-shadow:0 2px 10px #5921da14}
+.bd h4{display:flex;align-items:center;gap:10px;font-size:20px;padding:6px 0 10px;border-bottom:1px solid #eee}.bd h4 img{width:34px}
+.w{display:flex;align-items:center;gap:14px;padding:12px 0;border-bottom:1px solid #eee}.w:last-child{border:0}
+.w img{width:48px;height:48px;object-fit:contain}.w div{flex:1;font-size:18px;font-weight:600}.w small{display:block;font-size:13px;font-weight:400;color:#8b8499}
+.w b{color:var(--g);font-size:19px}
+.tot{background:#c0f7d8;border-radius:16px;padding:14px;text-align:center;font-weight:700;font-size:19px}.tot small{display:block;font-weight:400;font-size:13px}
+.login{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;background:#5a21df;color:#fff;padding:24px;text-align:center}
+.login img{width:110px;border-radius:20px}.login input{text-align:center;font-size:22px;letter-spacing:10px;max-width:220px}
+.login .go{background:#fff;color:var(--p);max-width:220px}
+.qr{display:grid;grid-template-columns:repeat(21,1fr);gap:1px;width:210px;margin:16px auto;padding:10px;background:#fff;border-radius:16px}
+.qr i{aspect-ratio:1;background:#1f1235}.qr i.w{background:#fff}
+.toast{position:fixed;top:20px;left:50%;transform:translateX(-50%);background:var(--g);color:#fff;padding:10px 18px;border-radius:20px;font-size:13px;z-index:20;display:none}
+.offer{background:linear-gradient(135deg,#5320d7,#7a35f5);color:#fff;border-radius:16px;padding:16px;margin-bottom:10px}
+.seg{display:flex;background:#fff;border-radius:14px;padding:4px;margin:12px 0;box-shadow:0 2px 10px #5921da14}
+.seg button{flex:1;padding:10px;border-radius:11px;font-weight:600;color:#7d8bb0}.seg button.on{background:var(--p);color:#fff}
+.tr{background:#fff;border-radius:14px;padding:11px 12px;margin-bottom:8px;display:flex;align-items:center;gap:12px;font-size:14px;font-weight:600}
+.tr div{flex:1}.tr small{display:block;font-weight:400;font-size:11px;color:#8b8499}
+.ic{width:40px;height:40px;border-radius:50%;color:#fff;display:grid;place-items:center;font-style:normal;font-weight:700}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:10px}.two div{border-radius:14px;color:#fff;padding:12px;font-size:13px}.two b{display:block;font-size:18px;margin-top:2px}
+.vcard{position:relative;height:190px;border-radius:24px;background:linear-gradient(135deg,#3b1a8f,#5921da);color:#fff;padding:20px;margin-bottom:14px;overflow:hidden;box-shadow:0 10px 22px #5921da44}
+.vcard:before{content:"";position:absolute;right:-30px;bottom:-40px;width:140px;height:140px;border-radius:50%;border:2px solid #c264ff}
+.chip{display:block;width:38px;height:30px;border-radius:7px;background:#f5c26b;margin-bottom:26px}
+.vcard .num{font-size:20px;letter-spacing:2px;font-weight:600}.vcard .nm{margin-top:12px;font-size:14px}.vcard small{opacity:.8}
+.visa{position:absolute;right:22px;bottom:18px;font-size:24px;font-style:italic;letter-spacing:1px}
+.vcard.empty p{position:absolute;left:20px;bottom:18px;font-size:13px;max-width:60%}
+</style></head><body>
+<div id="app"></div>
+<div class="det" id="det"></div>
+<div class="shade" id="shade"><div class="sheet" id="sheet"></div></div>
+<div class="toast" id="toast"></div>
+<script>
+const $=s=>document.querySelector(s);
+const WN=['bKash','Nagad','Rocket','Upay','Bank Account'],IM={bKash:'bkash','Nagad':'nagad',Rocket:'rocket',Upay:'upay','Bank Account':'bank'};
+function seed(){const n=Date.now(),H=36e5;return[{n:'Add Money via Debit/Credit Card to bKash',a:2000,i:1,ts:n-2*H},{n:'Mobile Recharge · Robi',a:100,i:0,ts:n-5*H},{n:'Bill Pay · Electricity',a:850,i:0,ts:n-26*H},{n:'Send Money · 017XXXXXXXX',a:500,i:0,ts:n-28*H},{n:'Add Money via Bank Transfer to Nagad',a:1500,i:1,ts:n-30*H},{n:'Top Up Games · Free Fire',a:200,i:0,ts:n-50*H}]}
+const def={pin:'1234',w:{bKash:3500,Nagad:2000,Rocket:1200,Upay:1000,'Bank Account':5000},tx:seed(),cards:[]};
+let S;try{S=JSON.parse(localStorage.getItem('bsp2'))}catch(e){}
+S=S||JSON.parse(JSON.stringify(def));S.cards=S.cards||[];
+let tab='home',authed=false,txf='all';
+const esc=x=>String(x).replace(/[&<>"']/g,c=>'&#'+c.charCodeAt(0)+';');
+const save=()=>{try{localStorage.setItem('bsp2',JSON.stringify(S))}catch(e){}};
+const total=()=>WN.reduce((a,k)=>a+S.w[k],0);
+const fmt=n=>Number(n).toLocaleString('en-IN',{minimumFractionDigits:2,maximumFractionDigits:2});
+const AMT=['amt','Amount (৳)','number'],PIN=['pin','PIN','password'],FROM=['from','Pay from','select',WN];
+const A={
+add:{t:'Add Money',f:[['src','Add via','select',['Debit/Credit Card','Bank Transfer','Agent Cash In']],['to','Add to','select',WN],AMT,PIN]},
+send:{t:'Send Money',f:[FROM,['to','Receiver number','tel'],AMT,PIN]},
+out:{t:'Cash Out',f:[FROM,['to','Agent number','tel'],AMT,PIN]},
+rech:{t:'Mobile Recharge',f:[FROM,['to','Mobile number','tel'],['op','Operator','select',['Grameenphone','Robi','Banglalink','Airtel','Teletalk']],AMT,PIN]},
+bill:{t:'Bill Pay',f:[FROM,['op','Biller','select',['Electricity','Gas','Water','Internet']],['to','Account number','tel'],AMT,PIN]},
+util:{t:'Utility Payment',f:[FROM,['op','Service','select',['Broadband','TV Cable','Municipal Tax','Others']],['to','Account number','tel'],AMT,PIN]},
+game:{t:'Top Up Games',f:[FROM,['op','Game','select',['Free Fire','PUBG Mobile','Mobile Legends']],['to','Player ID','tel'],AMT,PIN]},
+qr:{t:'Bangla QR Pay',f:[FROM,['op','Merchant','select',['Demo Super Shop','Demo Restaurant','Demo Pharmacy']],AMT,PIN]}
+};
+function sheet(h){$('#sheet').innerHTML=h;$('#shade').classList.add('on')}
+function close(){$('#shade').classList.remove('on')}
+$('#shade').onclick=e=>{if(e.target.id==='shade')close()};
+function toast(m){const t=$('#toast');t.textContent=m;t.style.display='block';setTimeout(()=>t.style.display='none',2200)}
+function open(k,pre){const a=A[k];
+ sheet('<h2>'+a.t+'</h2>'+a.f.map(([id,l,ty,o])=>'<label>'+l+'</label>'+(ty==='select'?'<select id="f_'+id+'">'+o.map(x=>'<option'+(x===pre?' selected':'')+'>'+x+'</option>').join('')+'</select>':'<input id="f_'+id+'" type="'+ty+'" inputmode="'+(ty==='password'?'numeric':'decimal')+'"'+(ty==='password'?' maxlength="4"':'')+'>')).join('')+'<div class="err" id="err"></div><button class="go" onclick="go(\''+k+'\')">Confirm</button><p style="font-size:11px;color:#8b7aa8;margin-top:10px;text-align:center">Demo only. No real money moves.</p>')}
+function go(k){const v={};A[k].f.forEach(([id])=>v[id]=$('#f_'+id).value);const a=+v.amt,e=m=>$('#err').textContent=m;
+ if(v.pin!==S.pin)return e('Wrong PIN. Demo PIN is 1234.');
+ if(!(a>0))return e('Enter an amount greater than 0.');
+ if(k==='add'){S.w[v.to]+=a;log('Add Money via '+v.src+' to '+v.to,a,1)}
+ else{if(S.w[v.from]<a)return e('Not enough balance in '+v.from+'.');S.w[v.from]-=a;log(A[k].t+' · '+(v.op||'')+' '+(v.to||'')+' ('+v.from+')',a,0)}
+ save();close();render();toast('Demo transaction successful')}
+function log(n,a,i){S.tx.unshift({n:n.trim(),a,i,ts:Date.now()})}
+function details(){const d=$('#det');
+ d.innerHTML='<div class="bar"><span onclick="hide()">←</span>Wallet Balance Details<span>📊</span></div><div class="in"><button class="card" onclick="hide()"><img src="img/wallet.png"><div><small>Total Balance</small><b>৳ '+fmt(total())+'</b><span class="hint" style="background:#ffffff33;border-radius:14px;padding:4px 12px;display:inline-flex">Tap again to hide ⌃</span></div></button>'+
+ '<div class="bd"><h4><img src="img/pie.png">Balance Breakdown</h4>'+WN.map(k=>'<div class="w"><img src="img/'+IM[k]+'.png"><div>'+k+'<small>017XXXXXXXXX</small></div><b>৳ '+fmt(S.w[k])+'</b><span style="color:#8b8499">›</span></div>').join('')+'</div>'+
+ '<div class="tot">✔ Total = ৳ '+fmt(total())+'<small>(All Accounts Combined)</small></div><button class="go" style="margin-top:16px" onclick="hide()">✕ Close</button></div>';
+ d.classList.add('on')}
+function hide(){$('#det').classList.remove('on')}
+function more(){sheet('<h2>More</h2><div class="row" onclick="close();nav(\'cards\')">Cards<span>💳</span></div><div class="row" onclick="close();nav(\'scan\')">Bangla QR<span>▦</span></div><div class="row" onclick="close();nav(\'tx\')">Transaction history<span>🧾</span></div><div class="row" onclick="close();nav(\'offers\')">Offers<span>🎁</span></div>')}
+function nav(t){tab=t;render()}
+function login(){$('#app').innerHTML='<div class="login"><img src="img/logo.png"><h1>BD Smart Pay</h1><p>One Wallet • All Payments</p><input id="lp" type="password" inputmode="numeric" maxlength="4" placeholder="••••"><div class="err" id="le" style="color:#fff"></div><button class="go" id="lb">Login</button><p style="font-size:12px;opacity:.85">Demo app. PIN: 1234</p></div>';
+ $('#lb').onclick=()=>{if($('#lp').value===S.pin){authed=true;render()}else $('#le').textContent='Wrong PIN'}}
+function qrArt(){let s=7,h='';for(let i=0;i<441;i++){s=(s*9301+49297)%233280;h+='<i class="'+(s/233280>.5?'w':'')+'"></i>'}return h}
+const IC={home:'<path d="M3 11l9-8 9 8v9a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z"/>',tx:'<path d="M4 8h14M14 4l4 4-4 4M20 16H6M10 12l-4 4 4 4"/>',scan:'<rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><path d="M14 14h3v3h-3zM19 19h2M19 14h2"/>',offers:'<rect x="3" y="8" width="18" height="4"/><path d="M5 12v9h14v-9M12 8v13M12 8c-3-4-6-1-4 0M12 8c3-4 6-1 4 0"/>',profile:'<circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-6 8-6s8 2 8 6z"/>'};
+function render(){if(!authed)return login();
+ let m='';
+ if(tab==='home')m='<div class="pill">👤 017XXXXXXX ⌄</div><button class="card" onclick="details()"><img src="img/wallet.png"><div><small>Total Wallet Balance</small><b>৳ '+fmt(total())+'</b><span class="hint">👁 Tap to view breakdown</span></div></button>'+
+ '<div class="acts"><button class="act" style="background:#bcf5d2" onclick="open(\'add\')"><img src="img/add.png">Add Money</button><button class="act" style="background:#bde3fa" onclick="open(\'send\')"><img src="img/send.png">Send Money</button><button class="act" style="background:#fccd95" onclick="open(\'out\')"><img src="img/cash.png">Cash Out</button><button class="act" style="background:#e9cffc" onclick="more()"><img src="img/more.png">More</button></div>'+
+ '<h3>Quick Services</h3><div class="svc"><button style="background:#e2eafd" onclick="open(\'rech\')"><img src="img/phone.png">Mobile Recharge</button><button style="background:#fdf1e3" onclick="open(\'bill\')"><img src="img/bulb.png">Bill Pay</button><button style="background:#f1defc" onclick="open(\'util\')"><img src="img/fire.png">Utility Payment</button><button style="background:#dee6fd" onclick="open(\'game\')"><img src="img/game.png">Top Up Games</button></div><img class="banner" src="img/banner.png">';
+ if(tab==='tx')m='<h3>Statistics</h3>'+stats()+seg()+txs(S.tx.filter(t=>txf==='all'||(txf==='in'?t.i:!t.i)));
+ if(tab==='cards')m=cardsPage();
+ if(tab==='scan')m='<h3>Scan &amp; Pay</h3><div class="qr">'+qrArt()+'</div><p style="text-align:center;font-size:13px;color:#6b5a85">Demo Bangla QR. Tap below to simulate a scan.</p><button class="go" onclick="open(\'qr\')">Simulate scan</button>';
+ if(tab==='offers')m='<h3>Offers</h3><div class="offer"><b>5% cashback</b><br>On mobile recharge (demo)</div><div class="offer"><b>Free Cash Out</b><br>First 3 demo transactions</div><div class="offer"><b>Game Top Up bonus</b><br>Extra credit on Free Fire (demo)</div>';
+ if(tab==='profile')m='<h3>Profile</h3><div class="row">Name<b>Demo User</b></div><div class="row">Mobile<b>017XXXXXXXX</b></div><div class="row">Demo PIN<b>1234</b></div><button class="go" onclick="if(confirm(\'Reset demo data?\')){S=JSON.parse(JSON.stringify(def));save();render()}">Reset demo data</button><button class="go" style="background:#8b7aa8" onclick="authed=false;render()">Logout</button>';
+ const N=[['home','Home'],['tx','Transactions'],['scan','Scan & Pay','mid'],['offers','Offers'],['profile','Profile']];
+ $('#app').innerHTML='<div class="demo">DEMO APP · No real money</div><div class="top"><img src="img/logo.png"><div><h1>BD Smart Pay</h1><small>One Wallet • All Payments</small></div><span style="font-size:26px">🔔</span></div><div class="wrap">'+m+'</div><nav>'+N.map(n=>'<button class="'+(n[2]||'')+(tab===n[0]?' on':'')+'" onclick="nav(\''+n[0]+'\')">'+(n[2]?'<s>':'')+'<svg viewBox="0 0 24 24">'+IC[n[0]]+'</svg>'+(n[2]?'</s>':'')+n[1]+'</button>').join('')+'</nav>'}
+function dl(ts){const d=new Date(ts),t=new Date().setHours(0,0,0,0);return d>=t?'Today':d>=t-864e5?'Yesterday':d.toLocaleDateString('en-GB',{day:'2-digit',month:'short'})}
+function txs(l){if(!l.length)return '<div class="row">No transactions here yet.</div>';let g='',h='';l.forEach(t=>{const ts=t.ts||Date.now(),L=dl(ts);if(L!==g){g=L;h+='<h3 style="font-size:16px">'+L+'</h3>'}h+='<div class="tr"><i class="ic" style="background:'+(t.i?'#1f8a3b':'#7a35f5')+'">'+esc(t.n[0])+'</i><div>'+esc(t.n)+'<small>'+new Date(ts).toLocaleTimeString('en-GB',{hour:'2-digit',minute:'2-digit'})+'</small></div><span class="'+(t.i?'pos':'neg')+'">'+(t.i?'+':'−')+'৳ '+fmt(t.a)+'</span></div>'});return h}
+function seg(){return '<div class="seg">'+[['all','All'],['in','Income'],['out','Expense']].map(([k,l])=>'<button class="'+(txf===k?'on':'')+'" onclick="txf=\''+k+'\';render()">'+l+'</button>').join('')+'</div>'}
+function stats(){const now=Date.now(),D=864e5,days=[];for(let i=6;i>=0;i--){const b=new Date(now-i*D).setHours(0,0,0,0);days.push({s:b,e:b+D,x:0})}
+ let inc=0,exp=0;S.tx.forEach(t=>{const ts=t.ts||now;if(t.i)inc+=t.a;else{exp+=t.a;const d=days.find(x=>ts>=x.s&&ts<x.e);if(d)d.x+=t.a}});
+ const mx=Math.max(1,...days.map(d=>d.x)),P=days.map((d,i)=>[10+i*46.7,88-d.x/mx*64]),L=P.map((p,i)=>(i?'L':'M')+p[0].toFixed(1)+' '+p[1].toFixed(1)).join(' ');
+ return '<div class="bd" style="margin-top:0"><div style="font-size:13px;color:#7c6a99">Total Balance</div><b style="font-size:26px;color:#5921da">৳ '+fmt(total())+'</b><svg viewBox="0 0 300 114" style="width:100%;margin-top:6px"><defs><linearGradient id="gr" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#7a35f5" stop-opacity=".35"/><stop offset="1" stop-color="#7a35f5" stop-opacity="0"/></linearGradient></defs><path d="'+L+' L290 100 L10 100Z" fill="url(#gr)"/><path d="'+L+'" fill="none" stroke="#7a35f5" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>'+days.map((d,i)=>'<text x="'+P[i][0]+'" y="111" font-size="9" text-anchor="middle" fill="#8b8499">'+new Date(d.s).getDate()+'</text>').join('')+'</svg></div><div class="two"><div style="background:#4f7cf0">Income<b>৳ '+fmt(inc)+'</b></div><div style="background:#f26b6b">Expense<b>৳ '+fmt(exp)+'</b></div></div>'}
+function cardsPage(){const c=S.cards;return '<h3>My Cards</h3>'+(c.length?c.map((x,i)=>'<div class="vcard" onclick="rmCard('+i+')"><span class="chip"></span><div class="num">•••• •••• •••• '+esc(x.l4)+'</div><div class="nm">'+esc(x.name)+'<br><small>'+esc(x.exp)+'</small></div><b class="visa">VISA</b></div>').join(''):'<div class="vcard"><span class="chip"></span><b class="visa">VISA</b><p style="position:absolute;left:20px;bottom:18px;font-size:13px;max-width:60%">Add a new card to your wallet for easy life</p></div>')+'<button class="go" onclick="addCard()">＋ Add card</button><p style="font-size:12px;color:#8b7aa8;text-align:center;margin-top:10px">Tap a card to remove it. Demo only.</p>'}
+function addCard(){sheet('<h2>Add card</h2><label>Card number</label><input id="cn" inputmode="numeric" maxlength="19" placeholder="Any fake number"><label>Name on card</label><input id="cm"><label>Expiry (MM/YY)</label><input id="ce" maxlength="5" placeholder="MM/YY"><div class="err" id="err"></div><button class="go" onclick="saveCard()">Save card</button><p style="font-size:11px;color:#8b7aa8;margin-top:10px;text-align:center">Demo only. Do not enter a real card number. Only the last 4 digits are kept on this device.</p>')}
+function saveCard(){const n=$('#cn').value.replace(/\D/g,''),m=$('#cm').value.trim(),e=$('#ce').value.trim(),r=x=>$('#err').textContent=x;
+ if(n.length<12||n.length>19)return r('Enter a card number with 12 to 19 digits.');if(!m)return r('Enter the name on the card.');if(!/^\d\d\/\d\d$/.test(e))return r('Enter expiry as MM/YY.');
+ S.cards.push({l4:n.slice(-4),name:m,exp:e});save();close();render();toast('Card added')}
+function rmCard(i){if(confirm('Remove this card?')){S.cards.splice(i,1);save();render()}}
+render();
+</script></body></html>
