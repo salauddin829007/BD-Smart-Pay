@@ -84,11 +84,11 @@ const $=s=>document.querySelector(s);
 const WN=['bKash','Nagad','Rocket','Upay','Bank Account'],IM={bKash:'bkash','Nagad':'nagad',Rocket:'rocket',Upay:'upay','Bank Account':'bank'};
 function seed(){const n=Date.now(),H=36e5;return[{n:'Add Money via Debit/Credit Card to bKash',a:2000,i:1,ts:n-2*H},{n:'Mobile Recharge · Robi',a:100,i:0,ts:n-5*H},{n:'Bill Pay · Electricity',a:850,i:0,ts:n-26*H},{n:'Send Money · 017XXXXXXXX',a:500,i:0,ts:n-28*H},{n:'Add Money via Bank Transfer to Nagad',a:1500,i:1,ts:n-30*H},{n:'Top Up Games · Free Fire',a:200,i:0,ts:n-50*H}]}
 function fresh(){return{w:{bKash:3500,Nagad:2000,Rocket:1200,Upay:1000,'Bank Account':4000},tx:seed(),cards:[]}}
-let R;try{R=JSON.parse(localStorage.getItem('bsp3'))}catch(e){}
-R=R&&R.users?R:{users:{}};let S=null,cur=null;
+let S=null,cur=null,hs=null,me=null;
+const SB='https://xtxpazrfqvwmqdssxqfs.supabase.co',KEY='sb_publishable_PhWXVKtt-m2sYMuSjlWWPQ_EhbwAQ6d';
 let tab='home',authed=false,txf='all';
 const esc=x=>String(x).replace(/[&<>"']/g,c=>'&#'+c.charCodeAt(0)+';');
-const save=()=>{try{localStorage.setItem('bsp3',JSON.stringify(R))}catch(e){}};
+const save=()=>push();
 const total=()=>WN.reduce((a,k)=>a+S.w[k],0);
 const fmt=n=>Number(n).toLocaleString('en-IN',{minimumFractionDigits:2,maximumFractionDigits:2});
 const AMT=['amt','Amount (৳)','number'],PIN=['pin','PIN','password'],FROM=['from','Pay from','select',WN];
@@ -109,7 +109,7 @@ function toast(m){const t=$('#toast');t.textContent=m;t.style.display='block';se
 function openSheet(k,pre){const a=A[k];
  sheet('<h2>'+a.t+'</h2>'+a.f.map(([id,l,ty,o])=>'<label>'+l+'</label>'+(ty==='select'?'<select id="f_'+id+'">'+o.map(x=>'<option'+(x===pre?' selected':'')+'>'+x+'</option>').join('')+'</select>':'<input id="f_'+id+'" type="'+ty+'" inputmode="'+(ty==='password'?'numeric':'decimal')+'"'+(ty==='password'?' maxlength="4"':'')+'>')).join('')+'<div class="err" id="err"></div><button class="go" onclick="go(\''+k+'\')">Confirm</button><p style="font-size:11px;color:#8b7aa8;margin-top:10px;text-align:center">Demo only. No real money moves.</p>')}
 let busy=0;
-async function go(k){if(busy)return;busy=1;try{const ok=(await sha(cur+':'+$('#f_pin').value))===R.users[cur].h;go2(k,ok)}finally{busy=0}}
+async function go(k){if(busy)return;busy=1;try{const ok=(await sha(cur+':'+$('#f_pin').value))===hs;go2(k,ok)}finally{busy=0}}
 function go2(k,ok){const v={};A[k].f.forEach(([id])=>v[id]=$('#f_'+id).value);const a=+v.amt,e=m=>$('#err').textContent=m;
  if(!ok)return e('Wrong PIN.');
  if(!(a>0))return e('Enter an amount greater than 0.');
@@ -127,38 +127,45 @@ function more(){sheet('<h2>More</h2><div class="row" onclick="closeSheet();nav(\
 function nav(t){tab=t;render()}
 const sha=async t=>{try{const b=await crypto.subtle.digest('SHA-256',new TextEncoder().encode(t));return[...new Uint8Array(b)].map(x=>x.toString(16).padStart(2,'0')).join('')}catch(e){return btoa(t)}};
 const phoneOk=p=>/^01[3-9]\d{8}$/.test(p);
+async function rpc(fn,args){try{const r=await fetch(SB+'/rest/v1/rpc/'+fn,{method:'POST',headers:{apikey:KEY,'Content-Type':'application/json'},body:JSON.stringify(args)});if(!r.ok)return{ok:false,error:'server'};return await r.json()}catch(e){return{ok:false,error:'net'}}}
+let pt=null;
+function push(){if(!cur||!hs)return;clearTimeout(pt);pt=setTimeout(async()=>{const r=await rpc('app_save',{p_phone:cur,p_hash:hs,p_data:S});if(r.ok)return;
+ if(r.error==='blocked'){toast('Account locked. Contact admin.');authed=false;S=null;cur=null;hs=null;me=null;au='in';render()}else toast(r.error==='net'?'No internet. Changes not saved.':'Could not save changes.')},300)}
+async function notices(){sheet('<h2>Notifications</h2><div id="nl">Loading...</div>');
+ try{const r=await fetch(SB+'/rest/v1/notices?select=title,body,created_at&order=created_at.desc&limit=20',{headers:{apikey:KEY}});const l=await r.json();
+ $('#nl').innerHTML=Array.isArray(l)&&l.length?l.map(n=>'<div class="row"><div>'+esc(n.title)+'<small>'+esc(n.body)+'</small></div></div>').join(''):'<div class="row">No notifications.</div>'}catch(e){$('#nl').textContent='Could not load notifications.'}}
 let au='in',fp=null;
 function authView(){
+ let ph='';try{ph=localStorage.getItem('bsp_ph')||''}catch(e){}
  const L='<div class="login"><img src="'+IMG.logo+'"><h1>BD Smart Pay</h1><p>One Wallet • All Payments</p>',E='<div class="err" id="le"></div>',T='<p style="font-size:12px;opacity:.85;margin-top:6px">Demo app. No real money.</p></div>';
- const PH='<input id="ph" inputmode="numeric" maxlength="11" placeholder="Mobile number (01XXXXXXXXX)">',PN=(i,p)=>'<input id="'+i+'" type="password" inputmode="numeric" maxlength="4" placeholder="'+p+'">';
+ const PH=v=>'<input id="ph" inputmode="numeric" maxlength="11" placeholder="Mobile number (01XXXXXXXXX)" value="'+esc(v)+'">',PN=(i,p)=>'<input id="'+i+'" type="password" inputmode="numeric" maxlength="4" placeholder="'+p+'">';
  let b;
- if(au==='in')b=L+PH+PN('pn','PIN')+E+'<button class="go" onclick="signIn()">Sign In</button><button class="ol" onclick="au=\'up\';render()">Create Account</button><button class="lk" onclick="au=\'fg\';fp=null;render()">Forgot PIN?</button>'+T;
- else if(au==='up')b=L+'<h2>Create Account</h2><input id="nm" maxlength="40" placeholder="Full name">'+PH+PN('pn','Create 4-digit PIN')+PN('pc','Confirm PIN')+E+'<button class="go" onclick="signUp()">Create Account</button><button class="lk" onclick="au=\'in\';render()">Back to Sign In</button>'+T;
- else if(!fp)b=L+'<h2>Forgot PIN</h2><p style="font-size:13px">Enter your registered mobile number.</p>'+PH+E+'<button class="go" onclick="fgSend()">Send OTP</button><button class="lk" onclick="au=\'in\';render()">Back to Sign In</button>'+T;
- else b=L+'<h2>Reset PIN</h2><div class="otp">Demo OTP: <b>'+fp.otp+'</b><br><small>No SMS is sent in this demo.</small></div><input id="ot" inputmode="numeric" maxlength="6" placeholder="Enter OTP">'+PN('pn','New 4-digit PIN')+PN('pc','Confirm new PIN')+E+'<button class="go" onclick="fgReset()">Reset PIN</button><button class="lk" onclick="au=\'in\';fp=null;render()">Back to Sign In</button>'+T;
+ if(au==='in')b=L+PH(ph)+PN('pn','PIN')+E+'<button class="go" onclick="signIn()">Sign In</button><button class="ol" onclick="au=\'up\';render()">Create Account</button><button class="lk" onclick="au=\'fg\';fp=null;render()">Forgot PIN?</button>'+T;
+ else if(au==='up')b=L+'<h2>Create Account</h2><input id="nm" maxlength="40" placeholder="Full name">'+PH('')+PN('pn','Create 4-digit PIN')+PN('pc','Confirm PIN')+E+'<button class="go" onclick="signUp()">Create Account</button><button class="lk" onclick="au=\'in\';render()">Back to Sign In</button>'+T;
+ else if(!fp)b=L+'<h2>Forgot PIN</h2><p style="font-size:13px;max-width:300px">Enter your registered mobile number. The admin will set a new PIN for you.</p>'+PH(ph)+E+'<button class="go" onclick="fgSend()">Request PIN reset</button><button class="lk" onclick="au=\'in\';render()">Back to Sign In</button>'+T;
+ else b=L+'<h2>Request sent</h2><p style="font-size:14px;max-width:300px">The admin has been notified. Once your PIN is reset, sign in with the new PIN you receive.</p><button class="go" onclick="au=\'in\';fp=null;render()">Back to Sign In</button>'+T;
  $('#app').innerHTML=b}
 const lerr=m=>$('#le').textContent=m;
+const emsg=r=>r.error==='blocked'?'Account locked. Contact the admin.':r.error==='net'?'No internet connection.':r.error==='server'?'Server error. Please try again.':null;
 async function signIn(){const p=$('#ph').value.trim(),n=$('#pn').value;
  if(!phoneOk(p))return lerr('Enter a valid 11-digit mobile number.');
  if(!/^\d{4}$/.test(n))return lerr('Enter your 4-digit PIN.');
- const u=R.users[p];if(!u||u.h!==await sha(p+':'+n))return lerr('Mobile number or PIN is wrong.');
- cur=p;S=u.d;S.cards=S.cards||[];authed=true;tab='home';render()}
+ lerr('Please wait...');const h=await sha(p+':'+n),r=await rpc('app_login',{p_phone:p,p_hash:h});
+ if(!r.ok)return lerr(emsg(r)||'Mobile number or PIN is wrong.');
+ cur=p;hs=h;me=r.name;S=(r.data&&r.data.w)?r.data:fresh();S.cards=S.cards||[];try{localStorage.setItem('bsp_ph',p)}catch(e){}authed=true;tab='home';render()}
 async function signUp(){const nm=$('#nm').value.trim(),p=$('#ph').value.trim(),a=$('#pn').value,c=$('#pc').value;
  if(nm.length<2)return lerr('Enter your full name.');
  if(!phoneOk(p))return lerr('Enter a valid 11-digit mobile number.');
  if(!/^\d{4}$/.test(a))return lerr('PIN must be exactly 4 digits.');
  if(a!==c)return lerr('PINs do not match.');
- if(R.users[p])return lerr('This number is already registered. Please sign in.');
- R.users[p]={name:nm,h:await sha(p+':'+a),d:fresh()};save();cur=p;S=R.users[p].d;authed=true;tab='home';render();toast('Account created')}
-function fgSend(){const p=$('#ph').value.trim();
+ lerr('Please wait...');const h=await sha(p+':'+a),d=fresh(),r=await rpc('app_register',{p_phone:p,p_name:nm,p_hash:h,p_data:d});
+ if(!r.ok)return lerr(r.error==='exists'?'This number is already registered. Please sign in.':emsg(r)||'Could not create account. Try again.');
+ cur=p;hs=h;me=nm;S=d;try{localStorage.setItem('bsp_ph',p)}catch(e){}authed=true;tab='home';render();toast('Account created')}
+async function fgSend(){const p=$('#ph').value.trim();
  if(!phoneOk(p))return lerr('Enter a valid 11-digit mobile number.');
- if(!R.users[p])return lerr('No account found for this number.');
- fp={p,otp:String(100000+crypto.getRandomValues(new Uint32Array(1))[0]%900000)};render()}
-async function fgReset(){const o=$('#ot').value.trim(),a=$('#pn').value,c=$('#pc').value;
- if(o!==fp.otp)return lerr('Wrong OTP.');
- if(!/^\d{4}$/.test(a))return lerr('PIN must be exactly 4 digits.');
- if(a!==c)return lerr('PINs do not match.');
- R.users[fp.p].h=await sha(fp.p+':'+a);save();fp=null;au='in';render();toast('PIN changed. Sign in with your new PIN.')}
+ lerr('Please wait...');const r=await rpc('app_forgot',{p_phone:p});
+ if(!r.ok)return lerr(emsg(r)||'Could not send the request.');
+ fp='sent';render()}
 function qrArt(){let s=7,h='';for(let i=0;i<441;i++){s=(s*9301+49297)%233280;h+='<i class="'+(s/233280>.5?'w':'')+'"></i>'}return h}
 const IC={home:'<path d="M3 11l9-8 9 8v9a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z"/>',tx:'<path d="M4 8h14M14 4l4 4-4 4M20 16H6M10 12l-4 4 4 4"/>',scan:'<rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><path d="M14 14h3v3h-3zM19 19h2M19 14h2"/>',offers:'<rect x="3" y="8" width="18" height="4"/><path d="M5 12v9h14v-9M12 8v13M12 8c-3-4-6-1-4 0M12 8c3-4 6-1 4 0"/>',profile:'<circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-6 8-6s8 2 8 6z"/>'};
 function render(){if(!authed)return authView();
@@ -170,9 +177,9 @@ function render(){if(!authed)return authView();
  if(tab==='cards')m=cardsPage();
  if(tab==='scan')m='<h3>Scan &amp; Pay</h3><div class="qr">'+qrArt()+'</div><p style="text-align:center;font-size:13px;color:#6b5a85">Demo Bangla QR. Tap below to simulate a scan.</p><button class="go" onclick="openSheet(\'qr\')">Simulate scan</button>';
  if(tab==='offers')m='<h3>Offers</h3><div class="offer"><b>5% cashback</b><br>On mobile recharge (demo)</div><div class="offer"><b>Free Cash Out</b><br>First 3 demo transactions</div><div class="offer"><b>Game Top Up bonus</b><br>Extra credit on Free Fire (demo)</div>';
- if(tab==='profile')m='<h3>Profile</h3><div class="row">Name<b>'+esc(R.users[cur].name)+'</b></div><div class="row">Mobile<b>'+cur+'</b></div><button class="go" onclick="if(confirm(\'Reset demo data?\')){R.users[cur].d=S=fresh();save();render()}">Reset demo data</button><button class="go" style="background:#8b7aa8" onclick="authed=false;S=null;cur=null;au=\'in\';render()">Logout</button>';
+ if(tab==='profile')m='<h3>Profile</h3><div class="row">Name<b>'+esc(me)+'</b></div><div class="row">Mobile<b>'+cur+'</b></div><button class="go" onclick="if(confirm(\'Reset demo data?\')){S=fresh();save();render()}">Reset demo data</button><button class="go" style="background:#8b7aa8" onclick="authed=false;S=null;cur=null;hs=null;me=null;au=\'in\';render()">Logout</button>';
  const N=[['home','Home'],['tx','Transactions'],['scan','Scan & Pay','mid'],['offers','Offers'],['profile','Profile']];
- $('#app').innerHTML='<div class="demo">DEMO APP · No real money</div><div class="top"><img src="'+IMG.logo+'"><div><h1>BD Smart Pay</h1><small>One Wallet • All Payments</small></div><span style="font-size:26px">🔔</span></div><div class="wrap">'+m+'</div><nav>'+N.map(n=>'<button class="'+(n[2]||'')+(tab===n[0]?' on':'')+'" onclick="nav(\''+n[0]+'\')">'+(n[2]?'<s>':'')+'<svg viewBox="0 0 24 24">'+IC[n[0]]+'</svg>'+(n[2]?'</s>':'')+n[1]+'</button>').join('')+'</nav>'}
+ $('#app').innerHTML='<div class="demo">DEMO APP · No real money</div><div class="top"><img src="'+IMG.logo+'"><div><h1>BD Smart Pay</h1><small>One Wallet • All Payments</small></div><span style="font-size:26px" onclick="notices()">🔔</span></div><div class="wrap">'+m+'</div><nav>'+N.map(n=>'<button class="'+(n[2]||'')+(tab===n[0]?' on':'')+'" onclick="nav(\''+n[0]+'\')">'+(n[2]?'<s>':'')+'<svg viewBox="0 0 24 24">'+IC[n[0]]+'</svg>'+(n[2]?'</s>':'')+n[1]+'</button>').join('')+'</nav>'}
 function dl(ts){const d=new Date(ts),t=new Date().setHours(0,0,0,0);return d>=t?'Today':d>=t-864e5?'Yesterday':d.toLocaleDateString('en-GB',{day:'2-digit',month:'short'})}
 function txs(l){if(!l.length)return '<div class="row">No transactions here yet.</div>';let g='',h='';l.forEach(t=>{const ts=t.ts||Date.now(),L=dl(ts);if(L!==g){g=L;h+='<h3 style="font-size:16px">'+L+'</h3>'}h+='<div class="tr"><i class="ic" style="background:'+(t.i?'#1f8a3b':'#7a35f5')+'">'+esc(t.n[0])+'</i><div>'+esc(t.n)+'<small>'+new Date(ts).toLocaleTimeString('en-GB',{hour:'2-digit',minute:'2-digit'})+'</small></div><span class="'+(t.i?'pos':'neg')+'">'+(t.i?'+':'−')+'৳ '+fmt(t.a)+'</span></div>'});return h}
 function seg(){return '<div class="seg">'+[['all','All'],['in','Income'],['out','Expense']].map(([k,l])=>'<button class="'+(txf===k?'on':'')+'" onclick="txf=\''+k+'\';render()">'+l+'</button>').join('')+'</div>'}
