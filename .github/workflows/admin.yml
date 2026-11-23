@@ -1,0 +1,65 @@
+name: Build BD Smart Pay Admin APK
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Setup Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+
+      - name: Install Android SDK packages
+        run: |
+          yes | $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager --licenses > /dev/null || true
+          $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager "platform-tools" "platforms;android-34" "build-tools;34.0.0"
+
+      - name: Prepare admin web files
+        run: |
+          mkdir -p admin/www
+          cp docs/index.html admin/www/index.html
+
+      - name: Install dependencies
+        working-directory: admin
+        run: npm install
+
+      - name: Add Android platform
+        working-directory: admin
+        run: |
+          npx cap add android
+          npx cap sync android
+
+      - name: Set app icon
+        working-directory: admin
+        run: |
+          rm -rf android/app/src/main/res/mipmap-anydpi-v26
+          cp -r icons/* android/app/src/main/res/
+
+      - name: Build APK
+        working-directory: admin
+        run: |
+          cd android
+          chmod +x gradlew
+          ./gradlew assembleDebug
+
+      - name: Show APK size
+        run: ls -lh admin/android/app/build/outputs/apk/debug/
+
+      - name: Upload APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: BD-Smart-Pay-Admin-APK
+          path: admin/android/app/build/outputs/apk/debug/*.apk
+          if-no-files-found: error
