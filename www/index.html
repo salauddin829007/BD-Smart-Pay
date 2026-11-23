@@ -161,6 +161,16 @@ async function signUp(){const nm=$('#nm').value.trim(),p=$('#ph').value.trim(),a
  lerr('Please wait...');const h=await sha(p+':'+a),d=fresh(),r=await rpc('app_register',{p_phone:p,p_name:nm,p_hash:h,p_data:d});
  if(!r.ok)return lerr(r.error==='exists'?'This number is already registered. Please sign in.':emsg(r)||'Could not create account. Try again.');
  cur=p;hs=h;me=nm;S=d;try{localStorage.setItem('bsp_ph',p)}catch(e){}authed=true;tab='home';render();toast('Account created')}
+function changePin(){const I=(i,p)=>'<label>'+p+'</label><input id="'+i+'" type="password" inputmode="numeric" maxlength="4">';
+ sheet('<h2>Change PIN</h2>'+I('op','Current PIN')+I('np','New PIN')+I('cp','Confirm new PIN')+'<div class="err" id="err"></div><button class="go" onclick="doChangePin()">Change PIN</button>')}
+async function doChangePin(){const o=$('#op').value,n=$('#np').value,c=$('#cp').value,e=m=>$('#err').textContent=m;
+ if(!/^\d{4}$/.test(o)||!/^\d{4}$/.test(n))return e('PINs must be exactly 4 digits.');
+ if(n!==c)return e('New PINs do not match.');
+ if(n===o)return e('New PIN must be different from the current PIN.');
+ e('Please wait...');const oh=await sha(cur+':'+o),nh=await sha(cur+':'+n),r=await rpc('app_change_pin',{p_phone:cur,p_old:oh,p_new:nh});
+ if(!r.ok){if(r.error==='blocked'){closeSheet();toast('Account locked. Contact the admin.');authed=false;S=null;cur=null;hs=null;me=null;au='in';render();return}
+  return e(emsg(r)||'Current PIN is wrong.')}
+ hs=nh;closeSheet();toast('PIN changed')}
 async function fgSend(){const p=$('#ph').value.trim();
  if(!phoneOk(p))return lerr('Enter a valid 11-digit mobile number.');
  lerr('Please wait...');const r=await rpc('app_forgot',{p_phone:p});
@@ -177,7 +187,7 @@ function render(){if(!authed)return authView();
  if(tab==='cards')m=cardsPage();
  if(tab==='scan')m='<h3>Scan &amp; Pay</h3><div class="qr">'+qrArt()+'</div><p style="text-align:center;font-size:13px;color:#6b5a85">Demo Bangla QR. Tap below to simulate a scan.</p><button class="go" onclick="openSheet(\'qr\')">Simulate scan</button>';
  if(tab==='offers')m='<h3>Offers</h3><div class="offer"><b>5% cashback</b><br>On mobile recharge (demo)</div><div class="offer"><b>Free Cash Out</b><br>First 3 demo transactions</div><div class="offer"><b>Game Top Up bonus</b><br>Extra credit on Free Fire (demo)</div>';
- if(tab==='profile')m='<h3>Profile</h3><div class="row">Name<b>'+esc(me)+'</b></div><div class="row">Mobile<b>'+cur+'</b></div><button class="go" onclick="if(confirm(\'Reset demo data?\')){S=fresh();save();render()}">Reset demo data</button><button class="go" style="background:#8b7aa8" onclick="authed=false;S=null;cur=null;hs=null;me=null;au=\'in\';render()">Logout</button>';
+ if(tab==='profile')m='<h3>Profile</h3><div class="row">Name<b>'+esc(me)+'</b></div><div class="row">Mobile<b>'+cur+'</b></div><button class="go" onclick="changePin()">Change PIN</button><button class="go" onclick="if(confirm(\'Reset demo data?\')){S=fresh();save();render()}">Reset demo data</button><button class="go" style="background:#8b7aa8" onclick="authed=false;S=null;cur=null;hs=null;me=null;au=\'in\';render()">Logout</button>';
  const N=[['home','Home'],['tx','Transactions'],['scan','Scan & Pay','mid'],['offers','Offers'],['profile','Profile']];
  $('#app').innerHTML='<div class="demo">DEMO APP · No real money</div><div class="top"><img src="'+IMG.logo+'"><div><h1>BD Smart Pay</h1><small>One Wallet • All Payments</small></div><span style="font-size:26px" onclick="notices()">🔔</span></div><div class="wrap">'+m+'</div><nav>'+N.map(n=>'<button class="'+(n[2]||'')+(tab===n[0]?' on':'')+'" onclick="nav(\''+n[0]+'\')">'+(n[2]?'<s>':'')+'<svg viewBox="0 0 24 24">'+IC[n[0]]+'</svg>'+(n[2]?'</s>':'')+n[1]+'</button>').join('')+'</nav>'}
 function dl(ts){const d=new Date(ts),t=new Date().setHours(0,0,0,0);return d>=t?'Today':d>=t-864e5?'Yesterday':d.toLocaleDateString('en-GB',{day:'2-digit',month:'short'})}
