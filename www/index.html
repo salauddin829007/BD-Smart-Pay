@@ -72,6 +72,24 @@ input,select{width:100%;padding:13px;border:1.5px solid #ddd0f5;border-radius:12
 .vcard .num{font-size:20px;letter-spacing:2px;font-weight:600}.vcard .nm{margin-top:12px;font-size:14px}.vcard small{opacity:.8}
 .visa{position:absolute;right:22px;bottom:18px;font-size:24px;font-style:italic;letter-spacing:1px}
 .vcard.empty p{position:absolute;left:20px;bottom:18px;font-size:13px;max-width:60%}
+.hold-btn{
+ position:relative;
+ overflow:hidden;
+ isolation:isolate;
+}
+.hold-btn::before{
+ content:"";
+ position:absolute;
+ inset:0;
+ width:0;
+ background:rgba(255,255,255,.3);
+ z-index:-1;
+ transition:none;
+}
+.hold-btn.holding::before{
+ width:100%;
+ transition:width 1.5s linear;
+}
 </style></head><body>
 <div id="app"></div>
 <div class="det" id="det"></div>
@@ -109,9 +127,25 @@ function closeSheet(){$('#shade').classList.remove('on')}
 $('#shade').onclick=e=>{if(e.target.id==='shade')closeSheet()};
 function toast(m){const t=$('#toast');t.textContent=m;t.style.display='block';setTimeout(()=>t.style.display='none',2200)}
 function openSheet(k,pre){const a=A[k];
- sheet('<h2>'+a.t+'</h2>'+a.f.map(([id,l,ty,o])=>'<label>'+l+'</label>'+(ty==='select'?'<select id="f_'+id+'">'+o.map(x=>'<option'+(x===pre?' selected':'')+'>'+x+'</option>').join('')+'</select>':'<input id="f_'+id+'" type="'+ty+'" inputmode="'+(ty==='password'?'numeric':'decimal')+'"'+(ty==='password'?' maxlength="4"':'')+'>')).join('')+'<div class="err" id="err"></div><button class="go" onclick="go(\''+k+'\')">Confirm</button><p style="font-size:11px;color:#8b7aa8;margin-top:10px;text-align:center">Demo only. No real money moves.</p>')}
+ sheet('<h2>'+a.t+'</h2>'+a.f.map(([id,l,ty,o])=>'<label>'+l+'</label>'+(ty==='select'?'<select id="f_'+id+'">'+o.map(x=>'<option'+(x===pre?' selected':'')+'>'+x+'</option>').join('')+'</select>':'<input id="f_'+id+'" type="'+ty+'" inputmode="'+(ty==='password'?'numeric':'decimal')+'"'+(ty==='password'?' maxlength="4"':'')+'>')).join('')+'<div class="err" id="err"></div><button class="go hold-btn" onpointerdown="startHold(\''+k+'\',this)" onpointerup="cancelHold(this)" onpointerleave="cancelHold(this)" onpointercancel="cancelHold(this)">Press &amp; Hold to Confirm</button><p style="font-size:11px;color:#8b7aa8;margin-top:10px;text-align:center">Demo only. No real money moves.</p>')}
 let busy=0;
-
+let holdTimer=null;
+function startHold(k,el){
+ if(holdTimer)return;
+ el.classList.add('holding');
+ holdTimer=setTimeout(()=>{
+  holdTimer=null;
+  el.classList.remove('holding');
+  go(k);
+ },1500);
+}
+function cancelHold(el){
+ if(holdTimer){
+  clearTimeout(holdTimer);
+  holdTimer=null;
+ }
+ el.classList.remove('holding');
+}
 async function go(k){
  if(busy)return;
  if(!S.txPinHash){
