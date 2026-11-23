@@ -83,7 +83,9 @@ const IMG={add:"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACYAAAAyCAIAAAC/GD
 const $=s=>document.querySelector(s);
 const WN=['bKash','Nagad','Rocket','Upay','Bank Account'],IM={bKash:'bkash','Nagad':'nagad',Rocket:'rocket',Upay:'upay','Bank Account':'bank'};
 function seed(){const n=Date.now(),H=36e5;return[{n:'Add Money via Debit/Credit Card to bKash',a:2000,i:1,ts:n-2*H},{n:'Mobile Recharge · Robi',a:100,i:0,ts:n-5*H},{n:'Bill Pay · Electricity',a:850,i:0,ts:n-26*H},{n:'Send Money · 017XXXXXXXX',a:500,i:0,ts:n-28*H},{n:'Add Money via Bank Transfer to Nagad',a:1500,i:1,ts:n-30*H},{n:'Top Up Games · Free Fire',a:200,i:0,ts:n-50*H}]}
-function fresh(){return{w:{bKash:3500,Nagad:2000,Rocket:1200,Upay:1000,'Bank Account':4000},tx:seed(),cards:[]}}
+
+function fresh(){return{w:{bKash:3500,Nagad:2000,Rocket:1200,Upay:1000,'Bank Account':4000},tx:seed(),cards:[],txPinHash:null}}
+
 let S=null,cur=null,hs=null,me=null;
 const SB='https://xtxpazrfqvwmqdssxqfs.supabase.co',KEY='sb_publishable_PhWXVKtt-m2sYMuSjlWWPQ_EhbwAQ6d';
 let tab='home',authed=false,txf='all';
@@ -109,14 +111,42 @@ function toast(m){const t=$('#toast');t.textContent=m;t.style.display='block';se
 function openSheet(k,pre){const a=A[k];
  sheet('<h2>'+a.t+'</h2>'+a.f.map(([id,l,ty,o])=>'<label>'+l+'</label>'+(ty==='select'?'<select id="f_'+id+'">'+o.map(x=>'<option'+(x===pre?' selected':'')+'>'+x+'</option>').join('')+'</select>':'<input id="f_'+id+'" type="'+ty+'" inputmode="'+(ty==='password'?'numeric':'decimal')+'"'+(ty==='password'?' maxlength="4"':'')+'>')).join('')+'<div class="err" id="err"></div><button class="go" onclick="go(\''+k+'\')">Confirm</button><p style="font-size:11px;color:#8b7aa8;margin-top:10px;text-align:center">Demo only. No real money moves.</p>')}
 let busy=0;
-async function go(k){if(busy)return;busy=1;try{const ok=(await sha(cur+':'+$('#f_pin').value))===hs;go2(k,ok)}finally{busy=0}}
-function go2(k,ok){const v={};A[k].f.forEach(([id])=>v[id]=$('#f_'+id).value);const a=+v.amt,e=m=>$('#err').textContent=m;
- if(!ok)return e('Wrong PIN.');
+
+async function go(k){
+ if(busy)return;
+ if(!S.txPinHash){
+  $('#err').textContent='Please set your Transaction PIN from Profile first.';
+  return;
+ }
+ const pin=$('#f_pin').value;
+ if(!/^\d{4}$/.test(pin)){
+  $('#err').textContent='Enter your 4-digit Transaction PIN.';
+  return;
+ }
+ busy=1;
+ try{
+  const ok=(await sha(cur+':txn:'+pin))===S.txPinHash;
+  go2(k,ok);
+ }finally{busy=0}
+}
+function go2(k,ok){
+ const v={};
+ A[k].f.forEach(([id])=>v[id]=$('#f_'+id).value);
+ const a=+v.amt,e=m=>$('#err').textContent=m;
+ if(!ok)return e('Wrong Transaction PIN.');
  if(!(a>0))return e('Enter an amount greater than 0.');
- if(k==='add'){S.w[v.to]+=a;log('Add Money via '+v.src+' to '+v.to,a,1)}
- else{if(S.w[v.from]<a)return e('Not enough balance in '+v.from+'.');S.w[v.from]-=a;log(A[k].t+' · '+(v.op||'')+' '+(v.to||'')+' ('+v.from+')',a,0)}
- save();closeSheet();render();toast('Demo transaction successful')}
+ if(k==='add'){
+  S.w[v.to]+=a;
+  log('Add Money via '+v.src+' to '+v.to,a,1);
+ }else{
+  if(S.w[v.from]<a)return e('Not enough balance in '+v.from+'.');
+  S.w[v.from]-=a;
+  log(A[k].t+' · '+(v.op||'')+' '+(v.to||'')+' ('+v.from+')',a,0);
+ }
+ save();closeSheet();render();toast('Demo transaction successful');
+}
 function log(n,a,i){S.tx.unshift({n:n.trim(),a,i,ts:Date.now()})}
+
 function details(){const d=$('#det');
  d.innerHTML='<div class="bar"><span onclick="hide()">←</span>Wallet Balance Details<span>📊</span></div><div class="in"><button class="card" onclick="hide()"><img src="'+IMG.wallet+'"><div><small>Total Balance</small><b>৳ '+fmt(total())+'</b><span class="hint" style="background:#ffffff33;border-radius:14px;padding:4px 12px;display:inline-flex">Tap again to hide ⌃</span></div></button>'+
  '<div class="bd"><h4><img src="'+IMG.pie+'">Balance Breakdown</h4>'+WN.map(k=>'<div class="w"><img src="'+IMG[IM[k]]+'"><div>'+k+'<small>'+cur+'</small></div><b>৳ '+fmt(S.w[k])+'</b><span style="color:#8b8499">›</span></div>').join('')+'</div>'+
@@ -171,6 +201,35 @@ async function doChangePin(){const o=$('#op').value,n=$('#np').value,c=$('#cp').
  if(!r.ok){if(r.error==='blocked'){closeSheet();toast('Account locked. Contact the admin.');authed=false;S=null;cur=null;hs=null;me=null;au='in';render();return}
   return e(emsg(r)||'Current PIN is wrong.')}
  hs=nh;closeSheet();toast('PIN changed')}
+ 
+function changeTxPin(){
+ const I=(i,p)=>'<label>'+p+'</label><input id="'+i+'" type="password" inputmode="numeric" maxlength="4">';
+ sheet('<h2>'+(S.txPinHash?'Change Transaction PIN':'Set Transaction PIN')+'</h2>'+
+ (S.txPinHash?I('to','Current Transaction PIN'):'')+
+ I('tn','New Transaction PIN')+
+ I('tc','Confirm Transaction PIN')+
+ '<div class="err" id="err"></div>'+
+ '<button class="go" onclick="doChangeTxPin()">Save Transaction PIN</button>');
+}
+async function doChangeTxPin(){
+ const o=$('#to')?.value||'';
+ const n=$('#tn').value;
+ const c=$('#tc').value;
+ const e=m=>$('#err').textContent=m;
+ if(!/^\d{4}$/.test(n))return e('New PIN must be exactly 4 digits.');
+ if(n!==c)return e('PINs do not match.');
+ if(S.txPinHash){
+  const oh=await sha(cur+':txn:'+o);
+  if(oh!==S.txPinHash)return e('Current Transaction PIN is wrong.');
+ }
+ if(o===n)return e('New PIN must be different.');
+ S.txPinHash=await sha(cur+':txn:'+n);
+ save();
+ closeSheet();
+ toast('Transaction PIN saved');
+ render();
+}
+
 async function fgSend(){const p=$('#ph').value.trim();
  if(!phoneOk(p))return lerr('Enter a valid 11-digit mobile number.');
  lerr('Please wait...');const r=await rpc('app_forgot',{p_phone:p});
@@ -187,7 +246,9 @@ function render(){if(!authed)return authView();
  if(tab==='cards')m=cardsPage();
  if(tab==='scan')m='<h3>Scan &amp; Pay</h3><div class="qr">'+qrArt()+'</div><p style="text-align:center;font-size:13px;color:#6b5a85">Demo Bangla QR. Tap below to simulate a scan.</p><button class="go" onclick="openSheet(\'qr\')">Simulate scan</button>';
  if(tab==='offers')m='<h3>Offers</h3><div class="offer"><b>5% cashback</b><br>On mobile recharge (demo)</div><div class="offer"><b>Free Cash Out</b><br>First 3 demo transactions</div><div class="offer"><b>Game Top Up bonus</b><br>Extra credit on Free Fire (demo)</div>';
- if(tab==='profile')m='<h3>Profile</h3><div class="row">Name<b>'+esc(me)+'</b></div><div class="row">Mobile<b>'+cur+'</b></div><button class="go" onclick="changePin()">Change PIN</button><button class="go" onclick="if(confirm(\'Reset demo data?\')){S=fresh();save();render()}">Reset demo data</button><button class="go" style="background:#8b7aa8" onclick="authed=false;S=null;cur=null;hs=null;me=null;au=\'in\';render()">Logout</button>';
+
+if(tab==='profile')m='<h3>Profile</h3><div class="row">Name<b>'+esc(me)+'</b></div><div class="row">Mobile<b>'+cur+'</b></div><button class="go" onclick="changePin()">Change Login PIN</button><button class="go" onclick="changeTxPin()">Set / Change Transaction PIN</button><button class="go" onclick="if(confirm(\'Reset demo data?\')){S=fresh();save();render()}">Reset demo data</button><button class="go" style="background:#8b7aa8" onclick="authed=false;S=null;cur=null;hs=null;me=null;au=\'in\';render()">Logout</button>';
+
  const N=[['home','Home'],['tx','Transactions'],['scan','Scan & Pay','mid'],['offers','Offers'],['profile','Profile']];
  $('#app').innerHTML='<div class="demo">DEMO APP · No real money</div><div class="top"><img src="'+IMG.logo+'"><div><h1>BD Smart Pay</h1><small>One Wallet • All Payments</small></div><span style="font-size:26px" onclick="notices()">🔔</span></div><div class="wrap">'+m+'</div><nav>'+N.map(n=>'<button class="'+(n[2]||'')+(tab===n[0]?' on':'')+'" onclick="nav(\''+n[0]+'\')">'+(n[2]?'<s>':'')+'<svg viewBox="0 0 24 24">'+IC[n[0]]+'</svg>'+(n[2]?'</s>':'')+n[1]+'</button>').join('')+'</nav>'}
 function dl(ts){const d=new Date(ts),t=new Date().setHours(0,0,0,0);return d>=t?'Today':d>=t-864e5?'Yesterday':d.toLocaleDateString('en-GB',{day:'2-digit',month:'short'})}
