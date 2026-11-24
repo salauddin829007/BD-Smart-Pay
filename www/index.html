@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en"><head><meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
 <title>BD Smart Pay</title>
 <style>
 :root{--p:#5921da;--p2:#6d2ff0;--t:#1f1235;--g:#1f8a3b}
@@ -107,6 +107,51 @@ nav .mid s{width:68px;height:68px;margin-top:-34px;border:5px solid #fff;box-sha
 .card small{font-size:17px}.card b{font-size:34px;white-space:nowrap}.hint{font-size:14px;white-space:nowrap;gap:6px}
 .bh{font-size:17px}.bh span{white-space:nowrap}.bh a{font-size:14px;white-space:nowrap}
 body{padding-bottom:124px}
+
+/* ---- compact + smooth ---- */
+html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
+body{-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;padding-bottom:96px}
+button{transition:transform .12s ease,box-shadow .12s ease}button:active{transform:scale(.97)}
+.demo{font-size:12px;padding:4px}
+.top{padding:calc(env(safe-area-inset-top,0px) + 12px) 16px 38px;gap:10px}
+.top>img{width:48px}.top h1{font-size:20px;font-weight:700}.top small{font-size:12.5px}
+.top .bellw,.bellw img{width:36px;height:36px}.bdg{min-width:18px;height:18px;font-size:11px;top:-4px;right:-4px;padding:0 4px}
+.wrap{margin-top:-24px;padding:14px 14px 20px;border-radius:28px 28px 0 0}
+.pill{width:72%;padding:8px 14px;font-size:16px;font-weight:600;margin-bottom:12px;gap:8px}.pill svg{width:22px;height:22px}
+.card{padding:14px}.card img{width:58px;height:58px}.card .vd{margin:2px 10px 2px 6px}
+.card small{font-size:14px}.card b{font-size:27px;font-weight:700;margin:1px 0 4px}.hint{font-size:12px}.hint svg{width:17px!important;height:17px!important}
+.lkb{font-size:13px;padding:11px}
+.acts{gap:9px;margin:14px 0}
+.act{border-radius:18px;padding:12px 2px 9px;font-size:12.5px;font-weight:600;gap:5px}.act img{width:38px;height:38px}
+.sec{margin:4px 0 8px}.sec h3{font-size:18px;font-weight:700}.sec h3:before{height:20px;width:5px}.sec a{font-size:13px}
+.svc{gap:9px}.svc button{border-radius:18px;padding:12px 2px 9px;font-size:12px;font-weight:600;gap:5px}.svc img{width:36px;height:36px}
+.banner{border-radius:18px;margin-top:14px}
+nav{padding:6px 0 calc(env(safe-area-inset-bottom,0px) + 7px);border-radius:24px 24px 0 0}
+nav button{font-size:11px;min-width:58px}nav svg{width:24px;height:24px}
+nav .mid s{width:54px;height:54px;margin-top:-26px;border-width:4px}nav .mid svg{width:27px;height:27px}
+
+html,body{touch-action:pan-y;overflow-x:hidden}
+.ag{font-style:normal;font-size:10px;font-weight:700;background:#ffb020;color:#fff;border-radius:6px;padding:1px 6px;margin-left:4px;vertical-align:middle}
+.wp.a2{grid-template-columns:repeat(2,1fr)}.wt small b{color:#1f8a3b}.wt.dis2{border-style:dashed;color:#5b1fe0;justify-content:center;opacity:1}
+.tgs{display:flex;gap:8px}.tg{flex:1;padding:10px;border-radius:12px;border:2px solid #e6dcf7;background:#fff;font-weight:700;color:#7d8bb0}.tg.on{border-color:#5921da;background:#f1e9ff;color:#5921da}
+.vf{position:relative;height:280px;border-radius:22px;background:linear-gradient(160deg,#1b0f3d,#2d1670);margin:6px 0 14px;overflow:hidden;display:flex;align-items:flex-end;justify-content:center}
+.vf i{position:absolute;width:44px;height:44px;border:4px solid #fff;border-radius:10px}
+.vf .c1{top:34px;left:34px;border-right:0;border-bottom:0}.vf .c2{top:34px;right:34px;border-left:0;border-bottom:0}.vf .c3{bottom:60px;left:34px;border-right:0;border-top:0}.vf .c4{bottom:60px;right:34px;border-left:0;border-top:0}
+.vf .ln{position:absolute;left:44px;right:44px;height:3px;background:linear-gradient(90deg,transparent,#a78bfa,transparent);top:50px;animation:scn 2.2s ease-in-out infinite alternate}
+@keyframes scn{to{top:200px}}
+.vf p{color:#d9ccff;font-size:13px;margin-bottom:16px}
+.cap{text-align:center;font-size:12px;color:#8b7aa8;margin-top:10px}
+.myqr{background:#fff;border-radius:22px;padding:22px 14px;text-align:center;box-shadow:0 8px 20px #5a1fe018;margin:6px 0 10px}
+.myqr svg{display:block;margin:0 auto;width:200px;height:200px;max-width:100%;box-sizing:border-box;padding:10px;border-radius:14px;border:2px solid #eadffd}
+.myqr b{display:block;font-size:18px;margin-top:12px}.myqr span{color:#7c6a99;font-size:14px}
+
+.prof{text-align:center;margin:4px 0 8px}.avw{position:relative;width:96px;margin:6px auto 0}
+.av{width:96px;height:96px;border-radius:50%;object-fit:cover;display:block;border:4px solid #fff;box-shadow:0 8px 20px #5a1fe033;box-sizing:border-box}
+.av.ini{display:grid;place-items:center;background:linear-gradient(135deg,#5320d7,#7a35f5);color:#fff;font-size:40px;font-weight:700}
+.cb{position:absolute;right:-2px;bottom:4px;width:30px;height:30px;border-radius:50%;background:#5921da;color:#fff;display:grid;place-items:center;font-style:normal;font-size:14px;border:3px solid #fbf9ff}
+.prof b{display:block;font-size:20px;margin-top:10px}.prof span{color:#7c6a99;font-size:14px}
+.pav{width:28px;height:28px;border-radius:50%;object-fit:cover}
+.go{padding:12px;font-size:15px;border-radius:12px;margin-top:12px}
 </style></head><body>
 <div id="app"></div>
 <div class="det" id="det"></div>
@@ -118,14 +163,17 @@ const IMG={logo:"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAPwAAAEECAYAAAAMH
 const $=s=>document.querySelector(s);
 const WN=['bKash','Nagad','Rocket','Upay','Bank Account'],IM={bKash:'bkash','Nagad':'nagad',Rocket:'rocket',Upay:'upay','Bank Account':'bank'};
 function seed(){const n=Date.now(),H=36e5;return[{n:'Add Money via Debit/Credit Card to bKash',a:2000,i:1,ts:n-2*H},{n:'Mobile Recharge · Robi',a:100,i:0,ts:n-5*H},{n:'Bill Pay · Electricity',a:850,i:0,ts:n-26*H},{n:'Send Money · 017XXXXXXXX',a:500,i:0,ts:n-28*H},{n:'Add Money via Bank Transfer to Nagad',a:1500,i:1,ts:n-30*H},{n:'Top Up Games · Free Fire',a:200,i:0,ts:n-50*H}]}
-function fresh(){return{w:{bKash:0,Nagad:0,Rocket:0,Upay:0,'Bank Account':0},ln:{},tx:[],cards:[]}}
+function fresh(){return{ac:[],tx:[],cards:[]}}
 let S=null,cur=null,hs=null,me=null;
 const SB='https://xtxpazrfqvwmqdssxqfs.supabase.co',KEY='sb_publishable_PhWXVKtt-m2sYMuSjlWWPQ_EhbwAQ6d';
-let tab='home',authed=false,txf='all';
+let tab='home',authed=false,txf='all',sc='scan';
+let shown=false,stm=null;
 const esc=x=>String(x).replace(/[&<>"']/g,c=>'&#'+c.charCodeAt(0)+';');
 const save=()=>push();
-const linked=w=>!!(S&&S.ln&&S.ln[w]);
-const total=()=>WN.reduce((a,k)=>a+(linked(k)?S.w[k]:0),0);
+const acc=id=>S.ac.find(x=>x.id===id);
+const lab=x=>x.w+' '+x.num+(x.type==='Agent'?' (Agent)':'');
+function migrate(){if(S.ac)return;S.ac=[];const ln=S.ln||Object.fromEntries(WN.map(w=>[w,cur]));WN.forEach(w=>{if(ln[w])S.ac.push({id:'m'+S.ac.length+w[0].toLowerCase(),w,num:ln[w],type:'Personal',bal:(S.w&&S.w[w])||0})});delete S.ln;delete S.w}
+const total=()=>S.ac.reduce((a,x)=>a+x.bal,0);
 const DEMO={bKash:3500,Nagad:2000,Rocket:1200,Upay:1000,'Bank Account':4000};
 let NB=0;
 const fmt=n=>Number(n).toLocaleString('en-IN',{minimumFractionDigits:2,maximumFractionDigits:2});
@@ -146,9 +194,9 @@ $('#shade').onclick=e=>{if(e.target.id==='shade')closeSheet()};
 function toast(m){const t=$('#toast');t.textContent=m;t.style.display='block';setTimeout(()=>t.style.display='none',2200)}
 const PI=(i,p)=>'<label>'+p+'</label><input id="'+i+'" type="password" inputmode="numeric" maxlength="4">';
 function pickW(b,id){$('#'+id).value=b.dataset.w;b.parentNode.querySelectorAll('.wt').forEach(x=>x.classList.toggle('on',x===b))}
-function openSheet(k,pre){if(!S.th){txnSetup(k,pre);return}if(!WN.some(linked)){linkFirst();return}const a=A[k];
+function openSheet(k,pre){if(!S.th){txnSetup(k,pre);return}if(!S.ac.length){linkFirst();return}const a=A[k];
  sheet('<h2>'+a.t+'</h2>'+a.f.map(([id,l,ty,o])=>{
-  if(o===WN){const L=WN.filter(linked),v=L.includes(pre)?pre:L[0];return '<label>'+l+'</label><input type="hidden" id="f_'+id+'" value="'+v+'"><div class="wp">'+WN.map(w=>linked(w)?'<button type="button" class="wt'+(w===v?' on':'')+'" data-w="'+w+'" onclick="pickW(this,\'f_'+id+'\')"><img src="'+IMG[IM[w]]+'"><span>'+w+'</span><small>৳ '+fmt(S.w[w])+'</small></button>':'<button type="button" class="wt dis" onclick="closeSheet();linkAccount(\''+w+'\')"><img src="'+IMG[IM[w]]+'"><span>'+w+'</span><small>Link account</small></button>').join('')+'</div>'}
+  if(o===WN){const v=(pre&&acc(pre))?pre:S.ac[0].id;return '<label>'+l+'</label><input type="hidden" id="f_'+id+'" value="'+v+'"><div class="wp a2">'+S.ac.map(x=>'<button type="button" class="wt'+(x.id===v?' on':'')+'" data-w="'+x.id+'" onclick="pickW(this,\'f_'+id+'\')"><img src="'+IMG[IM[x.w]]+'"><span>'+x.w+(x.type==='Agent'?' <em class="ag">Agent</em>':'')+'</span><small>'+esc(x.num)+'</small><small><b>৳ '+fmt(x.bal)+'</b></small></button>').join('')+'<button type="button" class="wt dis2" onclick="closeSheet();linkAccount()"><span style="font-size:26px;line-height:34px">＋</span><span>Link account</span></button></div>'}
   return '<label>'+l+'</label>'+(ty==='select'?'<select id="f_'+id+'">'+o.map(x=>'<option'+(x===pre?' selected':'')+'>'+x+'</option>').join('')+'</select>':'<input id="f_'+id+'" type="'+ty+'" inputmode="'+(ty==='password'?'numeric':'decimal')+'"'+(ty==='password'?' maxlength="4"':'')+'>')}).join('')+'<div class="err" id="err"></div><button type="button" class="lk" style="color:#5921da;font-size:13px;padding:0" onclick="resetTxn()">Forgot transaction PIN?</button><button class="go hb" onpointerdown="holdStart(\''+k+'\',event)" onpointerup="holdEnd(event)" onpointerleave="holdEnd(event)" onpointercancel="holdEnd(event)" oncontextmenu="return false">Press and hold to confirm</button><p style="font-size:11px;color:#8b7aa8;margin-top:10px;text-align:center">Enter your transaction PIN, then press and hold the button for a moment. Demo only. No real money moves.</p>')}
 let hold=null;
 function holdStart(k,ev){ev.preventDefault();const b=ev.currentTarget;b.classList.add('hl');clearTimeout(hold);hold=setTimeout(()=>{hold=null;b.classList.remove('hl');go(k)},1200)}
@@ -160,18 +208,18 @@ async function go(k){if(busy)return;busy=1;try{const ok=(await sha(cur+':t:'+$('
 function go2(k,ok){const v={};A[k].f.forEach(([id])=>v[id]=$('#f_'+id).value);const a=+v.amt,e=m=>$('#err').textContent=m;
  if(!ok)return e('Wrong transaction PIN.');
  if(!(a>0))return e('Enter an amount greater than 0.');
- if(k==='add'){S.w[v.to]+=a;log('Add Money via '+v.src+' to '+v.to,a,1)}
- else{if(S.w[v.from]<a)return e('Not enough balance in '+v.from+'.');S.w[v.from]-=a;log(A[k].t+' · '+(v.op||'')+' '+(v.to||'')+' ('+v.from+')',a,0)}
+ if(k==='add'){const ac=acc(v.to);if(!ac)return e('Choose an account.');ac.bal+=a;log('Add Money via '+v.src+' to '+lab(ac),a,1)}
+ else{const ac=acc(v.from);if(!ac)return e('Choose an account.');if(ac.bal<a)return e('Not enough balance in '+lab(ac)+'.');ac.bal-=a;log(A[k].t+' · '+(v.op||'')+' '+(v.to||'')+' ('+lab(ac)+')',a,0)}
  save();closeSheet();render();toast('Demo transaction successful')}
 function log(n,a,i){S.tx.unshift({n:n.trim(),a,i,ts:Date.now()})}
 function details(){const d=$('#det');
  d.innerHTML='<div class="bar"><span onclick="hide()">←</span>Wallet Balance Details<span>📊</span></div><div class="in"><button class="card" onclick="hide()"><img src="'+IMG.wallet+'"><div><small>Total Balance</small><b>৳ '+fmt(total())+'</b><span class="hint" style="background:#ffffff33;border-radius:14px;padding:4px 12px;display:inline-flex">Tap again to hide ⌃</span></div></button>'+
- '<div class="bd"><h4><img src="'+IMG.pie+'">Balance Breakdown</h4>'+WN.map(k=>'<div class="w" onclick="'+(linked(k)?'':'hide();linkAccount(\''+k+'\')')+'"><img src="'+IMG[IM[k]]+'"><div>'+k+'<small>'+(linked(k)?esc(S.ln[k]):'Not linked. Tap to link')+'</small></div><b>'+(linked(k)?'৳ '+fmt(S.w[k]):'')+'</b><span style="color:#8b8499">›</span></div>').join('')+'</div>'+
- '<div class="tot">✔ Total = ৳ '+fmt(total())+'<small>(All Accounts Combined)</small></div><button class="go" style="margin-top:16px" onclick="hide()">✕ Close</button></div>';
+ '<div class="bd"><h4><img src="'+IMG.pie+'">Balance Breakdown</h4>'+(S.ac.length?S.ac.map(x=>'<div class="w" onclick="hide();accInfo(\''+x.id+'\')"><img src="'+IMG[IM[x.w]]+'"><div>'+x.w+(x.type==='Agent'?' <em class="ag">Agent</em>':'')+'<small>'+esc(x.num)+'</small></div><b>৳ '+fmt(x.bal)+'</b><span style="color:#8b8499">›</span></div>').join(''):'<div class="w"><div>No linked accounts<small>Link your bKash, Nagad, Rocket, Upay or Bank account</small></div></div>')+'</div>'+
+ '<button class="lkb" onclick="hide();linkAccount()">＋ Link another account</button><div class="tot" style="margin-top:12px">✔ Total = ৳ '+fmt(total())+'<small>(All Accounts Combined)</small></div><button class="go" style="margin-top:16px" onclick="hide()">✕ Close</button></div>';
  d.classList.add('on')}
 function hide(){$('#det').classList.remove('on')}
 function more(){sheet('<h2>More</h2><div class="row" onclick="closeSheet();linkAccount()">Link account<span>🔗</span></div><div class="row" onclick="closeSheet();nav(\'cards\')">Cards<span>💳</span></div><div class="row" onclick="closeSheet();nav(\'scan\')">Bangla QR<span>▦</span></div><div class="row" onclick="closeSheet();nav(\'tx\')">Transaction history<span>🧾</span></div><div class="row" onclick="closeSheet();nav(\'offers\')">Offers<span>🎁</span></div>')}
-function nav(t){tab=t;render()}
+function nav(t){tab=t;shown=false;render()}
 const sha=async t=>{try{const b=await crypto.subtle.digest('SHA-256',new TextEncoder().encode(t));return[...new Uint8Array(b)].map(x=>x.toString(16).padStart(2,'0')).join('')}catch(e){return btoa(t)}};
 const phoneOk=p=>/^01[3-9]\d{8}$/.test(p);
 async function rpc(fn,args){try{const r=await fetch(SB+'/rest/v1/rpc/'+fn,{method:'POST',headers:{apikey:KEY,'Content-Type':'application/json'},body:JSON.stringify(args)});if(!r.ok)return{ok:false,error:'server'};return await r.json()}catch(e){return{ok:false,error:'net'}}}
@@ -199,7 +247,7 @@ async function signIn(){const p=$('#ph').value.trim(),n=$('#pn').value;
  if(!/^\d{4}$/.test(n))return lerr('Enter your 4-digit PIN.');
  lerr('Please wait...');const h=await sha(p+':'+n),r=await rpc('app_login',{p_phone:p,p_hash:h});
  if(!r.ok)return lerr(emsg(r)||'Mobile number or PIN is wrong.');
- cur=p;hs=h;me=r.name;S=(r.data&&r.data.w)?r.data:fresh();S.cards=S.cards||[];if(!S.ln)S.ln=Object.fromEntries(WN.map(w=>[w,p]));try{localStorage.setItem('bsp_ph',p)}catch(e){}authed=true;tab='home';render();loadNB()}
+ cur=p;hs=h;me=r.name;S=(r.data&&r.data.w)?r.data:fresh();S.cards=S.cards||[];migrate();try{localStorage.setItem('bsp_ph',p)}catch(e){}authed=true;tab='home';shown=false;render();loadNB()}
 async function signUp(){const nm=$('#nm').value.trim(),p=$('#ph').value.trim(),a=$('#pn').value,c=$('#pc').value;
  if(nm.length<2)return lerr('Enter your full name.');
  if(!phoneOk(p))return lerr('Enter a valid 11-digit mobile number.');
@@ -211,7 +259,7 @@ async function signUp(){const nm=$('#nm').value.trim(),p=$('#ph').value.trim(),a
  if(tp===a)return lerr('Transaction PIN must be different from the login PIN.');
  lerr('Please wait...');const h=await sha(p+':'+a),d=fresh();d.th=await sha(p+':t:'+tp);const r=await rpc('app_register',{p_phone:p,p_name:nm,p_hash:h,p_data:d});
  if(!r.ok)return lerr(r.error==='exists'?'This number is already registered. Please sign in.':emsg(r)||'Could not create account. Try again.');
- cur=p;hs=h;me=nm;S=d;try{localStorage.setItem('bsp_ph',p)}catch(e){}authed=true;tab='home';render();loadNB();toast('Account created')}
+ cur=p;hs=h;me=nm;S=d;try{localStorage.setItem('bsp_ph',p)}catch(e){}authed=true;tab='home';shown=false;render();loadNB();toast('Account created')}
 function changePin(){const I=(i,p)=>'<label>'+p+'</label><input id="'+i+'" type="password" inputmode="numeric" maxlength="4">';
  sheet('<h2>Change login PIN</h2>'+I('op','Current login PIN')+I('np','New login PIN')+I('cp','Confirm new login PIN')+'<div class="err" id="err"></div><button class="go" onclick="doChangePin()">Change PIN</button>')}
 async function doChangePin(){const o=$('#op').value,n=$('#np').value,c=$('#cp').value,e=m=>$('#err').textContent=m;
@@ -246,15 +294,36 @@ async function doResetTxn(){const l=$('#lp').value,n=$('#np').value,c=$('#cp').v
  if(!r.ok)return e(emsg(r)||'Login PIN is wrong.');
  S.th=await sha(cur+':t:'+n);save();closeSheet();toast('Transaction PIN reset')}
 async function loadNB(){try{const r=await fetch(SB+'/rest/v1/notices?select=created_at&order=created_at.desc&limit=20',{headers:{apikey:KEY}});const l=await r.json();if(!Array.isArray(l))return;let seen='';try{seen=localStorage.getItem('bsp_seen_'+cur)||''}catch(e){}NB=l.filter(n=>n.created_at>seen).length;if(authed&&tab==='home'&&NB>0)render()}catch(e){}}
-let LK={w:'bKash',otp:null,num:''};
-function linkFirst(){sheet('<h2>Link an account first</h2><p style="font-size:14px;color:#6b5a85;margin-bottom:6px">Link at least one of your bKash, Nagad, Rocket, Upay or Bank accounts to use your wallet.</p><button class="go" onclick="linkAccount()">Link account</button>')}
-function linkAccount(pre){LK={w:WN.includes(pre)?pre:(WN.find(w=>!linked(w))||'bKash'),otp:null,num:''};linkView()}
-function linkView(){const t=WN.map(w=>'<button type="button" class="wt'+(w===LK.w?' on':'')+'" onclick="LK.w=\''+w+'\';LK.otp=null;linkView()"><img src="'+IMG[IM[w]]+'"><span>'+w+'</span><small>'+(linked(w)?esc(S.ln[w]):'Not linked')+'</small></button>').join('');
- sheet('<h2>Link account</h2><div class="wp">'+t+'</div><label>'+esc(LK.w)+' account number</label><input id="ln" inputmode="numeric" maxlength="11" placeholder="01XXXXXXXXX" value="'+esc(LK.num)+'"'+(LK.otp?' readonly':'')+'>'+
+let LK={w:'bKash',type:'Personal',otp:null,num:''};
+function linkAccount(pre){LK={w:WN.includes(pre)?pre:'bKash',type:'Personal',otp:null,num:''};linkView()}
+function lkSet(w,t){LK.num=(($('#ln')||{}).value||'').trim();if(w)LK.w=w;if(t)LK.type=t;LK.otp=null;linkView()}
+function linkView(){const t=WN.map(w=>'<button type="button" class="wt'+(w===LK.w?' on':'')+'" onclick="lkSet(\''+w+'\')"><img src="'+IMG[IM[w]]+'"><span>'+w+'</span></button>').join('');
+ const ty=['Personal','Agent'].map(x=>'<button type="button" class="tg'+(LK.type===x?' on':'')+'" onclick="lkSet(null,\''+x+'\')">'+x+'</button>').join('');
+ sheet('<h2>Link account</h2><div class="wp">'+t+'</div><label>Account type</label><div class="tgs">'+ty+'</div><label>'+esc(LK.w)+' '+LK.type.toLowerCase()+' account number</label><input id="ln" inputmode="numeric" maxlength="11" placeholder="01XXXXXXXXX" value="'+esc(LK.num)+'"'+(LK.otp?' readonly':'')+'>'+
  (LK.otp?'<div class="otpb">Demo OTP: <b>'+LK.otp+'</b><br><small>No SMS is sent in this demo. In a real app the OTP goes to that number and the '+esc(LK.w)+' PIN is entered on the '+esc(LK.w)+' screen, never in this app.</small></div><label>Enter OTP</label><input id="lo" inputmode="numeric" maxlength="6">':'')+
- '<div class="err" id="err"></div><button class="go" onclick="'+(LK.otp?'doLink()':'sendOtp()')+'">'+(LK.otp?'Link account':'Send OTP')+'</button><p style="font-size:11px;color:#8b7aa8;margin-top:10px;text-align:center">Demo only. Linking adds demo money, not real money.</p>')}
-function sendOtp(){const n=$('#ln').value.trim();if(!phoneOk(n))return $('#err').textContent='Enter a valid 11-digit mobile number.';LK.num=n;LK.otp=String(100000+crypto.getRandomValues(new Uint32Array(1))[0]%900000);linkView()}
-function doLink(){if($('#lo').value.trim()!==LK.otp)return $('#err').textContent='Wrong OTP.';const w=LK.w;S.ln=S.ln||{};S.ln[w]=LK.num;if(!S.w[w])S.w[w]=DEMO[w];save();closeSheet();render();toast(w+' linked')}
+ '<div class="err" id="err"></div><button class="go" onclick="'+(LK.otp?'doLink()':'sendOtp()')+'">'+(LK.otp?'Link account':'Send OTP')+'</button><p style="font-size:11px;color:#8b7aa8;margin-top:10px;text-align:center">Demo only. You can link more than one bKash or Nagad number, personal and agent. Linking adds demo money, not real money.</p>')}
+function sendOtp(){const n=$('#ln').value.trim(),r=m=>$('#err').textContent=m;
+ if(!phoneOk(n))return r('Enter a valid 11-digit mobile number.');
+ if(S.ac.some(x=>x.w===LK.w&&x.num===n))return r('This '+LK.w+' account is already linked.');
+ if(S.ac.length>=12)return r('You can link up to 12 accounts.');
+ LK.num=n;LK.otp=String(100000+crypto.getRandomValues(new Uint32Array(1))[0]%900000);linkView()}
+function doLink(){if($('#lo').value.trim()!==LK.otp)return $('#err').textContent='Wrong OTP.';
+ S.ac.push({id:'a'+Date.now().toString(36)+Math.floor(Math.random()*1296).toString(36),w:LK.w,num:LK.num,type:LK.type,bal:LK.type==='Agent'?10000:DEMO[LK.w]});save();closeSheet();render();toast(LK.w+' '+LK.type.toLowerCase()+' account linked')}
+function accInfo(id){const x=acc(id);if(!x)return;sheet('<h2>'+esc(x.w)+(x.type==='Agent'?' <em class="ag">Agent</em>':'')+'</h2><div class="row">Number<b>'+esc(x.num)+'</b></div><div class="row">Type<b>'+x.type+'</b></div><div class="row">Balance (demo)<b>৳ '+fmt(x.bal)+'</b></div><button class="go" style="background:#d93025" onclick="unlink(\''+id+'\')">Unlink account</button><p style="font-size:11px;color:#8b7aa8;margin-top:10px;text-align:center">Unlinking removes this account and its demo balance from your wallet.</p>')}
+function unlink(id){if(!confirm('Unlink this account? Its demo balance will be removed.'))return;S.ac=S.ac.filter(x=>x.id!==id);save();closeSheet();render()}
+function qrSvg(){let s=7+(+String(cur).slice(-4)||0),h='<rect width="29" height="29" fill="#fff"/>';const F=(x,y)=>'<path fill="#1f1235" d="M'+x+' '+y+'h7v7h-7z"/><path fill="#fff" d="M'+(x+1)+' '+(y+1)+'h5v5h-5z"/><path fill="#1f1235" d="M'+(x+2)+' '+(y+2)+'h3v3h-3z"/>';
+ for(let y=0;y<29;y++)for(let x=0;x<29;x++){if((x<8&&y<8)||(x>20&&y<8)||(x<8&&y>20))continue;s=(s*9301+49297)%233280;if(s/233280>.5)h+='<rect x="'+x+'" y="'+y+'" width="1" height="1" fill="#1f1235"/>'}
+ return h+F(0,0)+F(22,0)+F(0,22)}
+const EYE=o=>'<svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" style="width:17px;height:17px"><path d="M1 12s4-7.5 11-7.5S23 12 23 12s-4 7.5-11 7.5S1 12 1 12z"/><circle cx="12" cy="12" r="3.3" fill="#fff"/>'+(o?'':'<path d="M3 3l18 18"/>')+'</svg>';
+function balTap(){if(!shown){shown=true;clearTimeout(stm);stm=setTimeout(()=>{shown=false;if(authed&&tab==='home')render()},10000);render()}else{clearTimeout(stm);shown=false;render();details()}}
+function pickPhoto(){const i=$('#pf');if(i)i.click()}
+function gotPhoto(inp){const f=inp.files&&inp.files[0];if(!f)return;if(!/^image\//.test(f.type)){toast('Please choose an image.');return}
+ const r=new FileReader();r.onerror=()=>toast('Could not read that image.');
+ r.onload=()=>{const im=new Image();im.onerror=()=>toast('Could not read that image.');
+  im.onload=()=>{const c=document.createElement('canvas'),n=256;c.width=c.height=n;const x=c.getContext('2d'),m=Math.min(im.width,im.height);x.drawImage(im,(im.width-m)/2,(im.height-m)/2,m,m,0,0,n,n);S.photo=c.toDataURL('image/jpeg',0.82);inp.value='';save();render();toast('Photo updated')};
+  im.src=r.result};r.readAsDataURL(f)}
+function rmPhoto(){if(!confirm('Remove your photo?'))return;delete S.photo;save();render()}
+function resetDemo(){if(!confirm('Reset demo data? Linked accounts, balances and transactions will be cleared.'))return;const k=S.th,p=S.photo;S=fresh();S.th=k;if(p)S.photo=p;save();render()}
 async function fgSend(){const p=$('#ph').value.trim();
  if(!phoneOk(p))return lerr('Enter a valid 11-digit mobile number.');
  lerr('Please wait...');const r=await rpc('app_forgot',{p_phone:p});
@@ -264,17 +333,16 @@ function qrArt(){let s=7,h='';for(let i=0;i<441;i++){s=(s*9301+49297)%233280;h+=
 const IC={home:'<path d="M3 11l9-8 9 8v9a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z"/>',tx:'<path d="M4 8h14M14 4l4 4-4 4M20 16H6M10 12l-4 4 4 4"/>',scan:'<rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><path d="M14 14h3v3h-3zM19 19h2M19 14h2"/>',offers:'<rect x="3" y="8" width="18" height="4"/><path d="M5 12v9h14v-9M12 8v13M12 8c-3-4-6-1-4 0M12 8c3-4 6-1 4 0"/>',profile:'<circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-6 8-6s8 2 8 6z"/>'};
 function render(){if(!authed)return authView();
  let m='';
- if(tab==='home')m='<div class="pill"><svg viewBox="0 0 24 24" fill="#6d28d9"><circle cx="12" cy="8" r="4.2"/><path d="M3.5 21c0-4.6 3.8-7 8.5-7s8.5 2.4 8.5 7z"/></svg>'+cur+'<svg viewBox="0 0 24 24" fill="none" stroke="#1f1235" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" style="width:20px;height:20px"><path d="M6 9l6 6 6-6"/></svg></div>'+
- '<button class="card" onclick="details()"><img src="'+IMG.wallet+'"><i class="vd"></i><div><small>Total Wallet Balance</small><b>৳ '+fmt(total())+'</b><span class="hint"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2" style="width:22px;height:22px"><path d="M1 12s4-7.5 11-7.5S23 12 23 12s-4 7.5-11 7.5S1 12 1 12z"/><circle cx="12" cy="12" r="3.3" fill="#fff"/></svg> Tap to view breakdown</span></div></button>'+
- (WN.some(linked)?'':'<button class="lkb" onclick="linkAccount()">＋ Link your bKash, Nagad, Rocket, Upay or Bank account</button>')+
+ if(tab==='home')m='<div class="pill">'+(S.photo?'<img class="pav" src="'+S.photo+'">':'<svg viewBox="0 0 24 24" fill="#6d28d9"><circle cx="12" cy="8" r="4.2"/><path d="M3.5 21c0-4.6 3.8-7 8.5-7s8.5 2.4 8.5 7z"/></svg>')+cur+'<svg viewBox="0 0 24 24" fill="none" stroke="#1f1235" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" style="width:20px;height:20px"><path d="M6 9l6 6 6-6"/></svg></div>'+
+ '<button class="card" onclick="balTap()"><img src="'+IMG.wallet+'"><i class="vd"></i><div><small>Total Wallet Balance</small><b>'+(shown?'৳ '+fmt(total()):'৳ ••••••')+'</b><span class="hint">'+EYE(shown)+(shown?' Tap again to view breakdown':' Tap to show balance')+'</span></div></button>'+
+ (S.ac.length?'':'<button class="lkb" onclick="linkAccount()">＋ Link your bKash, Nagad, Rocket, Upay or Bank account</button>')+
  '<div class="acts"><button class="act" style="background:linear-gradient(160deg,#c9f7d9,#9fe8bb)" onclick="openSheet(\'add\')"><img src="'+IMG.add+'">Add Money</button><button class="act" style="background:linear-gradient(160deg,#d6ebff,#b0d6fb)" onclick="openSheet(\'send\')"><img src="'+IMG.send+'">Send Money</button><button class="act" style="background:linear-gradient(160deg,#ffe3bd,#ffc88a)" onclick="openSheet(\'out\')"><img src="'+IMG.cash+'">Cash Out</button><button class="act" style="background:linear-gradient(160deg,#eddfff,#d6bdff)" onclick="more()"><img src="'+IMG.more+'">More</button></div>'+
- '<div class="sec"><h3>Quick Services</h3><a onclick="more()">See All →</a></div><div class="svc"><button style="background:linear-gradient(160deg,#e4eeff,#c9dafb)" onclick="openSheet(\'rech\')"><img src="'+IMG.phone+'">Mobile Recharge</button><button style="background:linear-gradient(160deg,#fff5e6,#fce3c0)" onclick="openSheet(\'bill\')"><img src="'+IMG.bulb+'">Bill Pay</button><button style="background:linear-gradient(160deg,#f8e8ff,#eacdfb)" onclick="openSheet(\'util\')"><img src="'+IMG.fire+'">Utility Payment</button><button style="background:linear-gradient(160deg,#e2e9ff,#c6d3fb)" onclick="openSheet(\'game\')"><img src="'+IMG.game+'">Top Up Games</button></div><img class="banner" src="'+IMG.banner+'">'+
- '<div class="brk"><div class="bh"><span><img src="'+IMG.pie+'">Wallet Breakdown</span><a onclick="details()">See Details →</a></div><div class="br">'+WN.map(w=>'<div class="'+(linked(w)?'':'off')+'"><img src="'+IMG[IM[w]]+'">'+(w==='Bank Account'?'Bank<br>Account':w)+'</div>').join('')+'</div></div>';
+ '<div class="sec"><h3>Quick Services</h3><a onclick="more()">See All →</a></div><div class="svc"><button style="background:linear-gradient(160deg,#e4eeff,#c9dafb)" onclick="openSheet(\'rech\')"><img src="'+IMG.phone+'">Mobile Recharge</button><button style="background:linear-gradient(160deg,#fff5e6,#fce3c0)" onclick="openSheet(\'bill\')"><img src="'+IMG.bulb+'">Bill Pay</button><button style="background:linear-gradient(160deg,#f8e8ff,#eacdfb)" onclick="openSheet(\'util\')"><img src="'+IMG.fire+'">Utility Payment</button><button style="background:linear-gradient(160deg,#e2e9ff,#c6d3fb)" onclick="openSheet(\'game\')"><img src="'+IMG.game+'">Top Up Games</button></div><img class="banner" src="'+IMG.banner+'">';
  if(tab==='tx')m='<h3>Statistics</h3>'+stats()+seg()+txs(S.tx.filter(t=>txf==='all'||(txf==='in'?t.i:!t.i)));
  if(tab==='cards')m=cardsPage();
- if(tab==='scan')m='<h3>Scan &amp; Pay</h3><div class="qr">'+qrArt()+'</div><p style="text-align:center;font-size:13px;color:#6b5a85">Demo Bangla QR. Tap below to simulate a scan.</p><button class="go" onclick="openSheet(\'qr\')">Simulate scan</button>';
+ if(tab==='scan')m='<div class="seg"><button class="'+(sc==='scan'?'on':'')+'" onclick="sc=\'scan\';render()">Scan QR</button><button class="'+(sc==='my'?'on':'')+'" onclick="sc=\'my\';render()">My QR</button></div>'+(sc==='scan'?'<div class="vf"><i class="c1"></i><i class="c2"></i><i class="c3"></i><i class="c4"></i><span class="ln"></span><p>Align the QR code inside the frame</p></div><button class="go" onclick="openSheet(\'qr\')">Simulate scan</button><p class="cap">Demo only. The camera is not used.</p>':'<div class="myqr"><svg viewBox="0 0 29 29" shape-rendering="crispEdges">'+qrSvg()+'</svg><b>'+esc(me)+'</b><span>'+esc(cur)+'</span></div><p class="cap">Demo QR. It cannot be scanned.</p>');
  if(tab==='offers')m='<h3>Offers</h3><div class="offer"><b>5% cashback</b><br>On mobile recharge (demo)</div><div class="offer"><b>Free Cash Out</b><br>First 3 demo transactions</div><div class="offer"><b>Game Top Up bonus</b><br>Extra credit on Free Fire (demo)</div>';
- if(tab==='profile')m='<h3>Profile</h3><div class="row">Name<b>'+esc(me)+'</b></div><div class="row">Mobile<b>'+cur+'</b></div><button class="go" onclick="changePin()">Change login PIN</button><button class="go" onclick="changeTxn()">Change transaction PIN</button><button class="go" onclick="if(confirm(\'Reset demo data?\')){S=fresh();save();render()}">Reset demo data</button><button class="go" style="background:#8b7aa8" onclick="authed=false;S=null;cur=null;hs=null;me=null;au=\'in\';render()">Logout</button>';
+ if(tab==='profile')m='<div class="prof"><div class="avw" onclick="pickPhoto()">'+(S.photo?'<img class="av" src="'+S.photo+'">':'<div class="av ini">'+esc(Array.from(me||'?')[0].toUpperCase())+'</div>')+'<i class="cb">📷</i></div><b>'+esc(me)+'</b><span>'+esc(cur)+'</span></div><input type="file" id="pf" accept="image/*" style="display:none" onchange="gotPhoto(this)"><button class="go" onclick="pickPhoto()">'+(S.photo?'Change photo':'Add photo')+'</button>'+(S.photo?'<button class="go" style="background:#8b7aa8" onclick="rmPhoto()">Remove photo</button>':'')+'<div class="row" style="margin-top:14px">Name<b>'+esc(me)+'</b></div><div class="row">Mobile<b>'+esc(cur)+'</b></div><button class="go" onclick="changePin()">Change login PIN</button><button class="go" onclick="changeTxn()">Change transaction PIN</button><button class="go" onclick="resetDemo()">Reset demo data</button><button class="go" style="background:#8b7aa8" onclick="authed=false;S=null;cur=null;hs=null;me=null;au=\'in\';render()">Logout</button>';
  const N=[['home','Home'],['tx','Transactions'],['scan','Scan & Pay','mid'],['offers','Offers'],['profile','Profile']];
  $('#app').innerHTML='<div class="demo">DEMO APP · No real money</div><div class="top"><img src="'+IMG.logo+'"><div><h1>BD Smart Pay</h1><small>One Wallet • All Payments</small></div><div class="bellw" onclick="notices()"><img src="'+IMG.bell+'">'+(NB>0?'<i class="bdg">'+NB+'</i>':'')+'</div></div><div class="wrap">'+m+'</div><nav>'+N.map(n=>'<button class="'+(n[2]||'')+(tab===n[0]?' on':'')+'" onclick="nav(\''+n[0]+'\')">'+(n[2]?'<s>':'')+'<svg viewBox="0 0 24 24">'+IC[n[0]]+'</svg>'+(n[2]?'</s>':'')+n[1]+'</button>').join('')+'</nav>'}
 function dl(ts){const d=new Date(ts),t=new Date().setHours(0,0,0,0);return d>=t?'Today':d>=t-864e5?'Yesterday':d.toLocaleDateString('en-GB',{day:'2-digit',month:'short'})}
@@ -283,7 +351,7 @@ function seg(){return '<div class="seg">'+[['all','All'],['in','Income'],['out',
 function stats(){const now=Date.now(),D=864e5,days=[];for(let i=6;i>=0;i--){const b=new Date(now-i*D).setHours(0,0,0,0);days.push({s:b,e:b+D,x:0})}
  let inc=0,exp=0;S.tx.forEach(t=>{const ts=t.ts||now;if(t.i)inc+=t.a;else{exp+=t.a;const d=days.find(x=>ts>=x.s&&ts<x.e);if(d)d.x+=t.a}});
  const mx=Math.max(1,...days.map(d=>d.x)),P=days.map((d,i)=>[10+i*46.7,88-d.x/mx*64]),L=P.map((p,i)=>(i?'L':'M')+p[0].toFixed(1)+' '+p[1].toFixed(1)).join(' ');
- return '<div class="bd" style="margin-top:0"><div style="font-size:13px;color:#7c6a99">Total Balance</div><b style="font-size:26px;color:#5921da">৳ '+fmt(total())+'</b><svg viewBox="0 0 300 114" style="width:100%;margin-top:6px"><defs><linearGradient id="gr" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#7a35f5" stop-opacity=".35"/><stop offset="1" stop-color="#7a35f5" stop-opacity="0"/></linearGradient></defs><path d="'+L+' L290 100 L10 100Z" fill="url(#gr)"/><path d="'+L+'" fill="none" stroke="#7a35f5" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>'+days.map((d,i)=>'<text x="'+P[i][0]+'" y="111" font-size="9" text-anchor="middle" fill="#8b8499">'+new Date(d.s).getDate()+'</text>').join('')+'</svg></div><div class="two"><div style="background:#4f7cf0">Income<b>৳ '+fmt(inc)+'</b></div><div style="background:#f26b6b">Expense<b>৳ '+fmt(exp)+'</b></div></div>'}
+ return '<div class="bd" style="margin-top:0"><div style="font-size:13px;color:#7c6a99">Total Balance</div><b style="font-size:26px;color:#5921da" onclick="shown=!shown;render()">'+(shown?'৳ '+fmt(total()):'৳ ••••••')+' <span style="font-size:12px;font-weight:600;color:#7c6a99">'+(shown?'tap to hide':'tap to show')+'</span></b><svg viewBox="0 0 300 114" style="width:100%;margin-top:6px"><defs><linearGradient id="gr" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#7a35f5" stop-opacity=".35"/><stop offset="1" stop-color="#7a35f5" stop-opacity="0"/></linearGradient></defs><path d="'+L+' L290 100 L10 100Z" fill="url(#gr)"/><path d="'+L+'" fill="none" stroke="#7a35f5" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>'+days.map((d,i)=>'<text x="'+P[i][0]+'" y="111" font-size="9" text-anchor="middle" fill="#8b8499">'+new Date(d.s).getDate()+'</text>').join('')+'</svg></div><div class="two"><div style="background:#4f7cf0">Income<b>৳ '+fmt(inc)+'</b></div><div style="background:#f26b6b">Expense<b>৳ '+fmt(exp)+'</b></div></div>'}
 function cardsPage(){const c=S.cards;return '<h3>My Cards</h3>'+(c.length?c.map((x,i)=>'<div class="vcard" onclick="rmCard('+i+')"><span class="chip"></span><div class="num">•••• •••• •••• '+esc(x.l4)+'</div><div class="nm">'+esc(x.name)+'<br><small>'+esc(x.exp)+'</small></div><b class="visa">VISA</b></div>').join(''):'<div class="vcard"><span class="chip"></span><b class="visa">VISA</b><p style="position:absolute;left:20px;bottom:18px;font-size:13px;max-width:60%">Add a new card to your wallet for easy life</p></div>')+'<button class="go" onclick="addCard()">＋ Add card</button><p style="font-size:12px;color:#8b7aa8;text-align:center;margin-top:10px">Tap a card to remove it. Demo only.</p>'}
 function addCard(){sheet('<h2>Add card</h2><label>Card number</label><input id="cn" inputmode="numeric" maxlength="19" placeholder="Any fake number"><label>Name on card</label><input id="cm"><label>Expiry (MM/YY)</label><input id="ce" maxlength="5" placeholder="MM/YY"><div class="err" id="err"></div><button class="go" onclick="saveCard()">Save card</button><p style="font-size:11px;color:#8b7aa8;margin-top:10px;text-align:center">Demo only. Do not enter a real card number. Only the last 4 digits are kept on this device.</p>')}
 function saveCard(){const n=$('#cn').value.replace(/\D/g,''),m=$('#cm').value.trim(),e=$('#ce').value.trim(),r=x=>$('#err').textContent=x;
