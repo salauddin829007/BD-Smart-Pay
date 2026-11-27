@@ -1,0 +1,98 @@
+name: Build BD Smart Pay Admin RELEASE APK (signed)
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Check signing secrets exist
+        env:
+          KS: ${{ secrets.ANDROID_KEYSTORE_B64 }}
+          KP: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
+          KA: ${{ secrets.ANDROID_KEY_ALIAS }}
+        run: |
+          if [ -z "$KS" ] || [ -z "$KP" ] || [ -z "$KA" ]; then
+            echo "Missing signing secrets. See HANDOVER.md (section: Release APK)."; exit 1
+          fi
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Setup Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+
+      - name: Install Android SDK packages
+        run: |
+          yes | $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager --licenses > /dev/null || true
+          $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager "platform-tools" "platforms;android-34" "build-tools;34.0.0"
+
+      - name: Prepare admin web files
+        run: |
+          mkdir -p admin/www
+          cp docs/index.html admin/www/index.html
+
+      - name: Install dependencies
+        working-directory: admin
+        run: npm install
+
+      - name: Add Android platform
+        working-directory: admin
+        run: |
+          npx cap add android
+          npx cap sync android
+
+      - name: Set app icon
+        working-directory: admin
+        run: |
+          rm -rf android/app/src/main/res/mipmap-anydpi-v26
+          cp -r icons/* android/app/src/main/res/
+
+      - name: Set version (must grow on every build so updates install over the old app)
+        working-directory: admin
+        run: |
+          f=android/app/build.gradle
+          grep -q "versionCode 1" "$f" || { echo "versionCode line not found in $f"; exit 1; }
+          sed -i "s/versionCode 1/versionCode ${{ github.run_number }}/" "$f"
+          sed -i "s/versionName \"1.0\"/versionName \"1.0.${{ github.run_number }}\"/" "$f"
+          grep -n "versionCode\|versionName" "$f"
+
+      - name: Build unsigned release APK
+        working-directory: admin/android
+        run: |
+          chmod +x gradlew
+          ./gradlew assembleRelease
+
+      - name: Align and sign
+        env:
+          KS_B64: ${{ secrets.ANDROID_KEYSTORE_B64 }}
+          KS_PASS: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
+          KEY_ALIAS: ${{ secrets.ANDROID_KEY_ALIAS }}
+          KEY_PASS: ${{ secrets.ANDROID_KEY_PASSWORD }}
+        run: |
+          BT=$ANDROID_HOME/build-tools/34.0.0
+          IN=$(ls admin/android/app/build/outputs/apk/release/*.apk | head -n 1)
+          echo "$KS_B64" | base64 -d > release.jks
+          $BT/zipalign -v -p 4 "$IN" aligned.apk
+          if [ -n "$KEY_PASS" ]; then KPVAR=KEY_PASS; else KPVAR=KS_PASS; fi
+          $BT/apksigner sign --ks release.jks --ks-pass env:KS_PASS \
+            --key-pass env:$KPVAR \
+            --ks-key-alias "$KEY_ALIAS" --out BD-Smart-Pay-Admin-release.apk aligned.apk
+          $BT/apksigner verify --print-certs BD-Smart-Pay-Admin-release.apk
+          rm -f release.jks
+
+      - name: Upload signed APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: BD-Smart-Pay-Admin-RELEASE-APK
+          path: BD-Smart-Pay-Admin-release.apk
+          if-no-files-found: error
