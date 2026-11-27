@@ -72,7 +72,7 @@ button,input{font:inherit;color:inherit}button{cursor:pointer;border:0;backgroun
 
 .scrim{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:#180b2e99;z-index:29}.scrim.on{display:block}
 @media(max-width:820px){.side{position:fixed;left:0;top:0;bottom:0;height:100%;width:236px;z-index:30;padding:calc(16px + env(safe-area-inset-top,0px)) 10px 16px;box-shadow:6px 0 26px #0007}.nav a{padding:9px 12px;font-size:13px;gap:10px}.nav a.on{padding:12px}.nav em{font-size:11px;padding:1px 7px}.me b{font-size:14px}.me span{font-size:12px}.logo{font-size:16px}.top .menu{min-width:44px;min-height:44px}}
-.tw td{white-space:nowrap}button,a{-webkit-tap-highlight-color:transparent}.me span{display:block}.chg{color:#fff;font-size:11px;text-decoration:underline;opacity:.9}.chips{display:flex;gap:6px;flex-wrap:wrap;padding:10px 14px;align-items:center}.chip{background:var(--soft);border:1px solid var(--line);color:var(--ink);border-radius:20px;padding:6px 14px;font-size:13px;font-weight:600}.chip.on{background:var(--p);color:#fff;border-color:var(--p)}.chips select{width:auto;padding:7px 10px;border:1.5px solid var(--line);border-radius:10px;background:var(--card);color:var(--ink);font:inherit;font-size:13px}.sum{display:flex;gap:10px;flex-wrap:wrap;padding:0 14px 12px}.sum div{background:var(--soft);border-radius:12px;padding:8px 14px;font-size:12px;color:var(--mut)}.sum b{display:block;font-size:16px}.sw{width:44px;height:24px;border-radius:25px;background:#d6cde7;position:relative;cursor:pointer;flex-shrink:0}.sw:after{content:"";width:18px;height:18px;border-radius:50%;background:#fff;position:absolute;top:3px;left:3px;transition:.2s}.sw.on{background:var(--p)}.sw.on:after{left:23px}</style></head><body>
+.tw td{white-space:nowrap}button,a{-webkit-tap-highlight-color:transparent}.me span{display:block}.chg{color:#fff;font-size:11px;text-decoration:underline;opacity:.9}.chips{display:flex;gap:6px;flex-wrap:wrap;padding:10px 14px;align-items:center}.chip{background:var(--soft);border:1px solid var(--line);color:var(--ink);border-radius:20px;padding:6px 14px;font-size:13px;font-weight:600}.chip.on{background:var(--p);color:#fff;border-color:var(--p)}.chips select{width:auto;padding:7px 10px;border:1.5px solid var(--line);border-radius:10px;background:var(--card);color:var(--ink);font:inherit;font-size:13px}.sum{display:flex;gap:10px;flex-wrap:wrap;padding:0 14px 12px}.sum div{background:var(--soft);border-radius:12px;padding:8px 14px;font-size:12px;color:var(--mut)}.sum b{display:block;font-size:16px}.sw{width:44px;height:24px;border-radius:25px;background:#d6cde7;position:relative;cursor:pointer;flex-shrink:0}.sw:after{content:"";width:18px;height:18px;border-radius:50%;background:#fff;position:absolute;top:3px;left:3px;transition:.2s}.sw.on{background:var(--p)}.sw.on:after{left:23px}.chips input{font:inherit;font-size:13px;padding:7px 10px;border:1.5px solid var(--line);border-radius:10px;background:var(--card);color:var(--ink)}</style></head><body>
 <input type="file" id="pf" accept="image/*" style="display:none" onchange="pickPhoto(this)"><div id="app"></div><div class="mbg" id="m"><div class="box" id="mb"></div></div><div class="toast" id="toast"></div>
 <script>
 const SB='https://xtxpazrfqvwmqdssxqfs.supabase.co',KEY='sb_publishable_PhWXVKtt-m2sYMuSjlWWPQ_EhbwAQ6d';
@@ -128,7 +128,7 @@ function acts(){const a=[];U.forEach(u=>a.push([u.created_at,'#22b14c','New user
  return a.filter(x=>x[0]).sort((x,y)=>new Date(y[0])-new Date(x[0])).slice(0,4)}
 const head=(t,s)=>`<div class="head"><div><h1>${t}</h1><p>${s}</p></div><div class="upd">Last Updated: ${LAST?LAST.toLocaleString('en-GB',{day:'numeric',month:'short',year:'numeric',hour:'2-digit',minute:'2-digit'}):'-'}<button onclick="load()" aria-label="Refresh">⟳</button></div></div>`;
 const stat=(g,ic,l,v,s)=>`<div class="stat"><div class="sic" style="background:${g}">${ic}</div><div><small>${l}</small><strong>${v}</strong><span class="sm">${s}</span></div></div>`;
-const utable=L=>`<div class="tw"><table><tr><th>Name</th><th>Mobile</th><th>Location</th><th>Balance</th><th>Status</th><th>Registered</th><th></th></tr>${L.length?L.map(u=>`<tr><td><div class="u"><span class="av">${esc(inits(u.name))}</span>${esc(u.name)}</div></td><td>${esc(u.phone)}</td><td>${esc(u.district||'—')}</td><td>৳ ${fmt(bal(u))}</td><td><span class="tag ${u.blocked?'bad':'ok'}">${u.blocked?'Locked':'Active'}</span></td><td>${dt(u.created_at)}</td><td><button class="g" onclick="detail('${esc(u.phone)}')">Open</button></td></tr>`).join(''):'<tr><td colspan="7">No users yet.</td></tr>'}</table></div>`;
+const utable=L=>`<div class="tw"><table><tr><th>Name</th><th>Mobile</th><th>Location</th><th>Balance</th><th>Status</th><th>Registered</th><th></th></tr>${L.length?L.map(u=>`<tr><td><div class="u"><span class="av">${esc(inits(u.name))}</span>${esc(u.name)}</div></td><td>${esc(u.phone)}</td><td>${esc([u.upazila,u.district].filter(Boolean).join(', ')||'—')}</td><td>৳ ${fmt(bal(u))}</td><td><span class="tag ${u.blocked?'bad':'ok'}">${u.blocked?'Locked':'Active'}</span></td><td>${dt(u.created_at)}</td><td><button class="g" onclick="detail('${esc(u.phone)}')">Open</button></td></tr>`).join(''):'<tr><td colspan="7">No users yet.</td></tr>'}</table></div>`;
 function dash(){const pend=Q.filter(q=>!q.done),w=wallets(),tot=w.reduce((a,x)=>a+x[1],0);
  const W=w.slice(0,4),rest=w.slice(4).reduce((a,x)=>a+x[1],0);if(w.length>4)W.push(['Others',rest]);
  const WC=['#7a2be6','#f59e0b','#2d8cf0','#22b14c','#c8c2d8'];let acc=0;
@@ -144,7 +144,7 @@ function dash(){const pend=Q.filter(q=>!q.done),w=wallets(),tot=w.reduce((a,x)=>
  <div class="row r3"><section class="panel"><div class="ph">🕒 Pending Requests<button class="pill" onclick="go('req')">View All →</button></div>${pend.length?pend.slice(0,3).map(q=>`<div class="li" style="cursor:pointer" onclick="go('req')">🔑 PIN Request: ${esc(nameOf(q.phone)||q.phone)}<span class="k">pending</span><span class="sm">›</span></div>`).join(''):'<div class="li sm">No pending requests.</div>'}</section>
  <section class="panel"><div class="ph">✅ System Status</div><div class="li">🛡 App Status<span class="ok">Online</span></div><div class="li">🗄 Database<span class="ok">Connected</span></div><div class="li">🔑 Admin check<span class="${ADM===false?'k':'ok'}">${ADM===true?'OK':ADM===false?'Not admin':'Unknown'}</span></div><div class="li">💾 Last refresh<span class="t">${LAST?LAST.toLocaleTimeString():'-'}</span></div></section>
  <section class="panel"><div class="ph">☰ Recent Activity</div>${acts().length?acts().map(a=>`<div class="li"><i class="dot" style="background:${a[1]}"></i>${esc(a[2])}<span class="t">${rel(a[0])}</span></div>`).join(''):'<div class="li sm">No activity yet.</div>'}</section></div>`}
-function usersP(){const q=SQ.trim().toLowerCase();let L=U.filter(u=>(!q||(u.name||'').toLowerCase().includes(q)||(u.phone||'').includes(q))&&(UF==='all'||(UF==='locked')===!!u.blocked));
+function usersP(){const q=SQ.trim().toLowerCase();let L=U.filter(u=>(!q||(u.name||'').toLowerCase().includes(q)||(u.phone||'').includes(q)||[u.division,u.district,u.upazila,u.village].some(x=>(x||'').toLowerCase().includes(q)))&&(UF==='all'||(UF==='locked')===!!u.blocked));
  L=L.slice().sort(US==='name'?(a,b)=>String(a.name).localeCompare(b.name):US==='bal'?(a,b)=>bal(b)-bal(a):(a,b)=>new Date(b.created_at)-new Date(a.created_at));
  const chip=(k,l)=>`<button class="chip${UF===k?' on':''}" onclick="UF='${k}';view()">${l}</button>`,so=(v,l)=>`<option value="${v}"${US===v?' selected':''}>${l}</option>`;
  return head('Users','Manage registered accounts')+`<section class="panel"><div class="ph">👥 All Users (${L.length})${q?'<button class="pill" onclick="SQ=\'\';view()">Clear search ✕</button>':''}</div><div class="chips">${chip('all','All ('+U.length+')')}${chip('active','Active ('+U.filter(u=>!u.blocked).length+')')}${chip('locked','Locked ('+U.filter(u=>u.blocked).length+')')}<select onchange="US=this.value;view()">${so('new','Newest first')}${so('name','Name A–Z')}${so('bal','Highest balance')}</select></div>${utable(L)}</section>`}
@@ -224,6 +224,96 @@ function secP(){const bad=U.filter(u=>u.blocked||(u.failed||0)>0).sort((a,b)=>(b
  return head('Security Control','Locked accounts, failed PIN attempts and admin activity')+`<div class="stats">${cards}</div><section class="panel" style="margin-top:12px"><div class="ph">🛡 Accounts needing attention</div><div class="tw"><table><tr><th>Name</th><th>Mobile</th><th>Location</th><th>Failed PIN</th><th>Status</th><th></th></tr>${rows}</table></div></section><section class="panel" style="margin-top:12px"><div class="ph">☰ Admin activity log</div><div class="tw"><table><tr><th>Time</th><th>Admin</th><th>Action</th><th>Details</th></tr>${lg}</table></div></section>`}
 function reqP(){const pn=Q.filter(q=>!q.done),L=PF==='pending'?pn:Q,chip=(k,l)=>`<button class="chip${PF===k?' on':''}" onclick="PF='${k}';view()">${l}</button>`,loc=p=>{const u=U.find(x=>x.phone===p);return u&&(u.district||u.division)||'—'};
  return head('PIN Requests','Review and reset user PINs')+`<section class="panel"><div class="ph">🔑 PIN Requests (${pn.length} pending)</div><div class="chips">${chip('pending','Pending ('+pn.length+')')}${chip('all','All ('+Q.length+')')}</div><div class="tw"><table><tr><th>Mobile</th><th>Name</th><th>Location</th><th>Requested</th><th>Status</th><th></th></tr>${L.length?L.map(q=>`<tr><td>${esc(q.phone)}</td><td>${esc(nameOf(q.phone))}</td><td>${esc(loc(q.phone))}</td><td>${dt(q.created_at)}</td><td>${q.done?'<span class="tag ok">Done</span>':'<span class="tag bad">Pending</span>'}</td><td>${q.done?'':`<button onclick="setPin('${esc(q.phone)}',${q.id})">Reset PIN</button>`}</td></tr>`).join(''):'<tr><td colspan="6">No requests.</td></tr>'}</table></div></section>`}
+const UPZ={
+"Bogura":["Adamdighi","Bogura Sadar","Dhunat","Dhupchanchia","Gabtali","Kahaloo","Nandigram","Sariakandi","Shajahanpur","Sherpur","Shibganj","Sonatola","Mokamtola"],
+"Chapainawabganj":["Bholahat","Gomastapur","Nachole","Nawabganj Sadar","Shibganj"],
+"Joypurhat":["Akkelpur","Joypurhat Sadar","Kalai","Khetlal","Panchbibi"],
+"Naogaon":["Atrai","Badalgachhi","Dhamoirhat","Manda","Mohadevpur","Naogaon Sadar","Niamatpur","Patnitala","Porsha","Raninagar","Sapahar"],
+"Natore":["Bagatipara","Baraigram","Gurudaspur","Lalpur","Naldanga","Natore Sadar","Singra"],
+"Pabna":["Atgharia","Bera","Bhangura","Chatmohar","Faridpur","Ishwardi","Pabna Sadar","Santhia","Sujanagar"],
+"Rajshahi":["Bagha","Bagmara","Charghat","Durgapur","Godagari","Mohanpur","Paba","Puthia","Tanore"],
+"Sirajganj":["Belkuchi","Chauhali","Kamarkhanda","Kazipur","Raiganj","Shahjadpur","Sirajganj Sadar","Tarash","Ullahpara"],
+"Dinajpur":["Biral","Birampur","Birganj","Bochaganj","Chirirbandar","Dinajpur Sadar","Ghoraghat","Hakimpur","Kaharole","Khansama","Nawabganj","Parbatipur","Phulbari"],
+"Gaibandha":["Gaibandha Sadar","Gobindaganj","Palashbari","Phulchhari","Sadullapur","Sughatta","Sundarganj"],
+"Kurigram":["Bhurungamari","Char Rajibpur","Chilmari","Kurigram Sadar","Nageshwari","Phulbari","Rajarhat","Raomari","Ulipur"],
+"Lalmonirhat":["Aditmari","Hatibandha","Kaliganj","Lalmonirhat Sadar","Patgram"],
+"Nilphamari":["Dimla","Domar","Jaldhaka","Kishoreganj","Nilphamari Sadar","Saidpur"],
+"Panchagarh":["Atwari","Boda","Debiganj","Panchagarh Sadar","Tetulia"],
+"Rangpur":["Badarganj","Gangachhara","Kaunia","Mithapukur","Pirgachha","Pirganj","Rangpur Sadar","Taraganj"],
+"Thakurgaon":["Baliadangi","Haripur","Pirganj","Ranisankail","Thakurgaon Sadar","Ruhia","Bhully"],
+"Jamalpur":["Baksiganj","Dewanganj","Islampur","Jamalpur Sadar","Madarganj","Melandaha","Sarishabari"],
+"Mymensingh":["Bhaluka","Dhobaura","Fulbaria","Gafargaon","Gauripur","Haluaghat","Ishwarganj","Muktagachha","Mymensingh Sadar","Nandail","Phulpur","Tara Khanda","Trishal"],
+"Netrokona":["Atpara","Barhatta","Durgapur","Kalmakanda","Khaliajuri","Kendua","Madan","Mohanganj","Netrokona Sadar","Purbadhala"],
+"Sherpur":["Jhenaigati","Nakla","Nalitabari","Sherpur Sadar","Sreebardi"],
+"Barguna":["Amtali","Bamna","Barguna Sadar","Betagi","Patharghata","Taltali"],
+"Barishal":["Agailjhara","Babuganj","Bakerganj","Banaripara","Barishal Sadar","Gaurnadi","Hizla","Mehendiganj","Muladi","Wazirpur"],
+"Bhola":["Bhola Sadar","Burhanuddin","Char Fasson","Daulatkhan","Lalmohan","Manpura","Tazumuddin"],
+"Jhalokati":["Jhalokati Sadar","Kathalia","Nalchity","Rajapur"],
+"Patuakhali":["Bauphal","Dashmina","Dumki","Galachipa","Kalapara","Mirzaganj","Patuakhali Sadar","Rangabali"],
+"Pirojpur":["Bhandaria","Indurkani","Kawkhali","Mathbaria","Nazirpur","Nesarabad (Swarupkati)","Pirojpur Sadar"],
+"Bandarban":["Ali Kadam","Bandarban Sadar","Lama","Naikhongchhari","Rowangchhari","Ruma","Thanchi"],
+"Brahmanbaria":["Akhaura","Bancharampur","Brahmanbaria Sadar","Kasba","Nabinagar","Nasirnagar","Sarail","Ashuganj","Bijoynagar"],
+"Chandpur":["Chandpur Sadar","Faridganj","Haimchar","Haziganj","Kachua","Matlab Dakshin","Matlab Uttar","Shahrasti"],
+"Chattogram":["Anwara","Banshkhali","Boalkhali","Chandanaish","Fatikchhari","Hathazari","Karnaphuli","Lohagara","Mirsharai","Patiya","Rangunia","Raozan","Sandwip","Satkania","Sitakunda"],
+"Cumilla":["Barura","Brahmanpara","Burichang","Chandina","Chauddagram","Daudkandi","Debidwar","Homna","Laksam","Lalmai","Muradnagar","Nangalkot","Cumilla Adarsha Sadar","Meghna","Titas","Monohargonj","Cumilla Sadar Dakshin"],
+"Cox's Bazar":["Chakaria","Cox's Bazar Sadar","Kutubdia","Maheshkhali","Ramu","Teknaf","Ukhia","Pekua","Eidgaon","Matamuhuri"],
+"Feni":["Chhagalnaiya","Daganbhuiyan","Feni Sadar","Parshuram","Sonagazi","Fulgazi"],
+"Khagrachhari":["Dighinala","Khagrachhari Sadar","Lakshmichhari","Mahalchhari","Manikchhari","Matiranga","Panchhari","Ramgarh","Guimara"],
+"Lakshmipur":["Lakshmipur Sadar","Raipur","Ramganj","Ramgati","Kamalnagar","Chandraganj"],
+"Noakhali":["Begumganj","Noakhali Sadar","Chatkhil","Companiganj","Hatiya","Senbagh","Sonaimuri","Subarnachar","Kabirhat"],
+"Rangamati":["Bagaichhari","Barkal","Kawkhali (Betbunia)","Belaichhari","Kaptai","Juraichhari","Langadu","Naniyachar","Rajasthali","Rangamati Sadar"],
+"Dhaka":["Dhamrai","Dohar","Keraniganj","Nawabganj","Savar"],
+"Faridpur":["Alfadanga","Bhanga","Boalmari","Charbhadrasan","Faridpur Sadar","Madhukhali","Nagarkanda","Sadarpur","Saltha"],
+"Gazipur":["Gazipur Sadar","Kaliakair","Kaliganj","Kapasia","Sreepur"],
+"Gopalganj":["Gopalganj Sadar","Kashiani","Kotalipara","Muksudpur","Tungipara"],
+"Kishoreganj":["Austagram","Bajitpur","Bhairab","Hossainpur","Itna","Karimganj","Katiadi","Kishoreganj Sadar","Kuliarchar","Mithamain","Nikli","Pakundia","Tarail"],
+"Madaripur":["Rajoir","Madaripur Sadar","Kalkini","Shibchar","Dasar"],
+"Manikganj":["Daulatpur","Ghior","Harirampur","Manikgonj Sadar","Saturia","Shivalaya","Singair"],
+"Munshiganj":["Gazaria","Lohajang","Munshiganj Sadar","Sirajdikhan","Sreenagar","Tongibari"],
+"Narayanganj":["Araihazar","Bandar","Narayanganj Sadar","Rupganj","Sonargaon"],
+"Narsingdi":["Narsingdi Sadar","Belabo","Monohardi","Palash","Raipura","Shibpur"],
+"Rajbari":["Baliakandi","Goalandaghat","Pangsha","Rajbari Sadar","Kalukhali"],
+"Shariatpur":["Bhedarganj","Damudya","Gosairhat","Naria","Shariatpur Sadar","Zajira"],
+"Tangail":["Gopalpur","Basail","Bhuapur","Delduar","Ghatail","Kalihati","Madhupur","Mirzapur","Nagarpur","Sakhipur","Dhanbari","Tangail Sadar"],
+"Bagerhat":["Bagerhat Sadar","Chitalmari","Fakirhat","Kachua","Mollahat","Mongla","Morrelganj","Rampal","Sarankhola"],
+"Chuadanga":["Alamdanga","Chuadanga Sadar","Damurhuda","Jibannagar"],
+"Jashore":["Abhaynagar","Bagherpara","Chaugachha","Jhikargachha","Keshabpur","Jashore Sadar","Manirampur","Sharsha"],
+"Jhenaidah":["Harinakunda","Jhenaidah Sadar","Kaliganj","Kotchandpur","Maheshpur","Shailkupa"],
+"Khulna":["Batiaghata","Dacope","Dumuria","Dighalia","Koyra","Paikgachha","Phultala","Rupsha","Terokhada"],
+"Kushtia":["Bheramara","Daulatpur","Khoksa","Kumarkhali","Kushtia Sadar","Mirpur"],
+"Magura":["Magura Sadar","Mohammadpur","Shalikha","Sreepur"],
+"Meherpur":["Gangni","Meherpur Sadar","Mujibnagar"],
+"Narail":["Kalia","Lohagara","Narail Sadar"],
+"Satkhira":["Assasuni","Debhata","Kalaroa","Kaliganj","Satkhira Sadar","Shyamnagar","Tala"],
+"Habiganj":["Ajmiriganj","Bahubal","Baniyachong","Chunarughat","Habiganj Sadar","Lakhai","Madhabpur","Nabiganj","Shayestaganj"],
+"Moulvibazar":["Barlekha","Juri","Kamalganj","Kulaura","Moulvibazar Sadar","Rajnagar","Sreemangal"],
+"Sunamganj":["Bishwamvarpur","Chhatak","Shantiganj","Derai","Dharamapasha","Dowarabazar","Jagannathpur","Jamalganj","Sullah","Sunamganj Sadar","Tahirpur","Madhyanagar"],
+"Sylhet":["Balaganj","Beanibazar","Bishwanath","Companiganj","Dakshin Surma","Fenchuganj","Golapganj","Gowainghat","Jaintiapur","Kanaighat","Osmani Nagar","Sylhet Sadar","Zakiganj"]};
+var UPZ_OK=false,LD='';
+async function getUsers(){const b='/rest/v1/app_users?select='+UCOLS,o='&order=created_at.desc';
+ try{const r=await api(b+',division,district,upazila,village'+o);LOC_OK=true;UPZ_OK=true;return r}catch(e){UPZ_OK=false}
+ try{const r=await api(b+',division,district'+o);LOC_OK=true;return r}catch(e){LOC_OK=false}
+ return api(b+o)}
+const opt=(a,s)=>a.map(x=>`<option${x===s?' selected':''}>${esc(x)}</option>`).join('');
+function locBox(u){if(!LOC_OK)return '';const dv=u.division||'',ds=u.district||'';
+ return `<div style="margin:8px 0"><b style="font-size:14px">Location</b><div class="chips" style="padding:6px 0"><select id="dv" onchange="fillDs()"><option value="">Division</option>${opt(Object.keys(BD),dv)}</select><select id="ds" onchange="fillUp()"><option value="">District</option>${opt(BD[dv]||[],ds)}</select>${UPZ_OK?`<select id="up"><option value="">Upazila</option>${opt(UPZ[ds]||[],u.upazila||'')}</select><input id="vl" placeholder="Village / area" maxlength="80" value="${esc(u.village||'')}" style="flex:1;min-width:140px">`:''}<button onclick="saveLoc('${esc(u.phone)}')">Save</button></div></div>`}
+function fillDs(){$('#ds').innerHTML='<option value="">District</option>'+opt(BD[$('#dv').value]||[],'');fillUp()}
+function fillUp(){const e=$('#up');if(e)e.innerHTML='<option value="">Upazila</option>'+opt(UPZ[$('#ds').value]||[],'')}
+async function saveLoc(p){const a=$('#dv').value||null,b=$('#ds').value||null,c=UPZ_OK?($('#up').value||null):null,v=UPZ_OK?(($('#vl').value||'').trim()||null):null;
+ try{await api('/rest/v1/app_users?phone=eq.'+ph(p),{method:'PATCH',body:JSON.stringify(UPZ_OK?{division:a,district:b,upazila:c,village:v}:{division:a,district:b}),headers:{Prefer:'return=minimal'}});logAct('Set location',p,[a,b,c,v].filter(Boolean).join(' / ')||'-');closeM();await load();toast('Location saved')}catch(e){alert('Failed: '+e.message)}}
+async function blockLoc(lv,n,b){const nm=n.replace('|',' / ');if(!confirm((b?'Block ':'Unblock ')+nm+' ('+lv+')? '+(b?'All users in this location will be locked.':'All locked users in this location will be unlocked, including any locked for other reasons.')))return;
+ try{const e=encodeURIComponent,q='/rest/v1/app_users?'+(lv==='upazila'?'district=eq.'+e(n.split('|')[0])+'&upazila=eq.'+e(n.split('|')[1]):lv+'=eq.'+e(n)),rm={Prefer:'return=minimal'};
+  if(b){await api('/rest/v1/blocked_locations',{method:'POST',body:JSON.stringify({level:lv,name:n}),headers:{Prefer:'return=minimal,resolution=ignore-duplicates'}});await api(q,{method:'PATCH',body:JSON.stringify({blocked:true}),headers:rm})}
+  else{await api('/rest/v1/blocked_locations?level=eq.'+lv+'&name=eq.'+e(n),{method:'DELETE',headers:rm});await api(q,{method:'PATCH',body:JSON.stringify({blocked:false,failed:0}),headers:rm})}
+  logAct(b?'Block location':'Unblock location',nm,lv);await load();toast(nm+(b?' blocked':' unblocked'))}catch(x){alert('Failed: '+x.message)}}
+function locP(){const h0=head('Locations','Divisions, districts and upazilas: assign users, block and unblock');if(!LOC_OK)return h0+need('Location system');
+ const isB=(l,n)=>(BL||[]).some(b=>b.level===l&&b.name===n),cnt=(l,n)=>U.filter(u=>u[l]===n);
+ const btn=(l,n)=>{const b=isB(l,n);return `<button class="${b?'g':'r'}" data-n="${esc(n)}" onclick="blockLoc('${l}',this.dataset.n,${b?0:1})">${b?'Unblock':'Block'}</button>`},st=(l,n)=>isB(l,n)?'<span class="tag bad">Blocked</span>':'<span class="tag ok">Open</span>';
+ const dr=Object.keys(BD).map(d=>{const us=cnt('division',d);return `<tr><td>${d}</td><td>${BD[d].length}</td><td>${us.length}</td><td>${us.filter(u=>u.blocked).length}</td><td>${st('division',d)}</td><td>${btn('division',d)}</td></tr>`}).join('');
+ const ds=LV&&BD[LV]?BD[LV].map(n=>{const us=cnt('district',n);return `<tr><td>${esc(n)}</td><td>${(UPZ[n]||[]).length}</td><td>${us.length}</td><td>${us.filter(u=>u.blocked).length}</td><td>${st('district',n)}</td><td>${btn('district',n)}</td></tr>`}).join(''):'';
+ const alld=Object.values(BD).flat().sort(),nU=Object.values(UPZ).reduce((a,x)=>a+x.length,0),un=U.filter(u=>!u.division&&!u.district).length;
+ const up=UPZ_OK&&LD&&UPZ[LD]?UPZ[LD].map(n=>{const k=LD+'|'+n,us=U.filter(u=>u.district===LD&&u.upazila===n);return `<tr><td>${esc(n)}</td><td>${us.length}</td><td>${us.filter(u=>u.blocked).length}</td><td>${st('upazila',k)}</td><td>${btn('upazila',k)}</td></tr>`}).join(''):'';
+ return h0+(BL===null?need('Location blocking'):'')+`<section class="panel"><div class="ph">📍 Divisions (8)</div><div class="tw"><table><tr><th>Division</th><th>Districts</th><th>Users</th><th>Locked</th><th>Status</th><th></th></tr>${dr}</table></div></section><section class="panel" style="margin-top:12px"><div class="ph">📍 Districts (64)</div><div class="chips"><select onchange="LV=this.value;view()"><option value="">Select division</option>${opt(Object.keys(BD),LV)}</select><span class="sm">${un} user(s) have no location. Set it from Users, then Open.</span></div>${ds?`<div class="tw"><table><tr><th>District</th><th>Upazilas</th><th>Users</th><th>Locked</th><th>Status</th><th></th></tr>${ds}</table></div>`:'<div class="li sm">Choose a division to see its districts.</div>'}</section>`+(UPZ_OK?`<section class="panel" style="margin-top:12px"><div class="ph">📍 Upazilas (${nU})</div><div class="chips"><select onchange="LD=this.value;view()"><option value="">Select district</option>${opt(alld,LD)}</select><span class="sm">Village / area is typed per user (no complete village list exists).</span></div>${up?`<div class="tw"><table><tr><th>Upazila</th><th>Users</th><th>Locked</th><th>Status</th><th></th></tr>${up}</table></div>`:'<div class="li sm">Choose a district to see its upazilas.</div>'}</section>`:need('Upazila and village (upazila_village.sql)'))}
 var FL=null;
 async function loadFlags(){try{FL=await api('/rest/v1/feature_flags?select=*&order=label.asc')}catch(e){FL=null}}
 async function setFlag(k,b){if(!b&&!confirm('Turn OFF this feature for all users?'))return;try{await api('/rest/v1/feature_flags?key=eq.'+encodeURIComponent(k),{method:'PATCH',body:JSON.stringify({enabled:b,updated_at:new Date().toISOString()}),headers:{Prefer:'return=minimal'}});logAct('Feature '+(b?'on':'off'),k);await loadFlags();view();toast('Feature '+(b?'enabled':'disabled'))}catch(e){alert('Failed: '+e.message)}}
