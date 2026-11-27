@@ -1,0 +1,45 @@
+name: Weekly encrypted database backup
+
+on:
+  schedule:
+    - cron: '0 20 * * 5'   # every Friday 20:00 UTC (Saturday 02:00 in Bangladesh)
+  workflow_dispatch:
+
+jobs:
+  backup:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check secrets exist
+        env:
+          URL: ${{ secrets.SUPABASE_DB_URL }}
+          PW: ${{ secrets.BACKUP_PASSPHRASE }}
+        run: |
+          if [ -z "$URL" ] || [ -z "$PW" ]; then
+            echo "Missing SUPABASE_DB_URL or BACKUP_PASSPHRASE. See HANDOVER.md (section: Backups)."; exit 1
+          fi
+
+      - name: Dump the public schema (Postgres 17 client)
+        env:
+          URL: ${{ secrets.SUPABASE_DB_URL }}
+        run: |
+          docker run --rm -e URL="$URL" postgres:17 \
+            sh -c 'pg_dump "$URL" --no-owner --no-privileges --schema=public' > backup.sql
+          test -s backup.sql
+          gzip -9 backup.sql
+
+      - name: Encrypt (the dump contains user data, never upload it unencrypted)
+        env:
+          PW: ${{ secrets.BACKUP_PASSPHRASE }}
+        run: |
+          gpg --batch --yes --pinentry-mode loopback --passphrase "$PW" \
+            --symmetric --cipher-algo AES256 -o backup-$(date -u +%F).sql.gz.gpg backup.sql.gz
+          rm -f backup.sql.gz
+          ls -l backup-*.gpg
+
+      - name: Upload (kept 30 days)
+        uses: actions/upload-artifact@v4
+        with:
+          name: db-backup-encrypted
+          path: backup-*.sql.gz.gpg
+          retention-days: 30
+          if-no-files-found: error
